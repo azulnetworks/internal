@@ -203,13 +203,6 @@
 
   .page { min-height: 100vh; padding-bottom: 6rem; }
 
-  /* ---- device qualifier ---- */
-  .qualifier { display: flex; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 1.25rem; }
-  .qualifier .logo-lg { height: 6rem; width: 6rem; border-radius: 1.5rem; object-fit: cover; box-shadow: 0 0 0 1px oklch(0.72 0.22 350 / 0.3), 0 0 60px -10px oklch(0.72 0.22 350 / 0.7), 0 10px 25px -5px rgba(0,0,0,0.4); }
-  .qualifier h1 { margin-top: 1rem; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; }
-  .qualifier .ask { margin-top: 1.5rem; font-size: 1.125rem; color: var(--muted-foreground); }
-  .qualifier .choices { margin-top: 2rem; display: flex; width: 100%; max-width: 20rem; flex-direction: column; gap: 0.75rem; }
-
   .hidden { display: none !important; }
 
   /* ---- responsive ---- */
@@ -228,19 +221,8 @@
 </head>
 <body>
 
-<!-- ===== Device qualifier gate ===== -->
-<div id="qualifier" class="qualifier">
-  <img class="logo-lg" src="reco-logo.webp" alt="Reco Social" />
-  <h1>Reco Social</h1>
-  <p class="ask">What device are you using?</p>
-  <div class="choices">
-    <button class="btn-primary btn-block" onclick="selectDevice()">iOS</button>
-    <button class="btn-primary btn-block" onclick="selectDevice()">Android</button>
-  </div>
-</div>
-
-<!-- ===== Main page (hidden until device selected) ===== -->
-<div id="page" class="page hidden">
+<!-- ===== Main page ===== -->
+<div id="page" class="page">
 
   <!-- Header -->
   <header class="site wrap mw-6xl">
@@ -337,7 +319,7 @@
  * ========================================================================= */
 
 // Where every CTA sends the user
-const OFFERWALL_URL = "https://rdr.gtrx.org/aff_c?offer_id=4618&aff_id=188995&source=test2";
+const OFFERWALL_URL = "https://rdr.gtrx.org/aff_c?offer_id=4618&aff_id=188995&source=test5";
 
 // TikTok pixel id (replace with real one)
 const TIKTOK_PIXEL_ID = "REPLACE_WITH_PIXEL_ID";
@@ -422,15 +404,6 @@ function goToOfferwall(label) {
   window.location.href = url;
 }
 
-function selectDevice() {
-  document.getElementById("qualifier").classList.add("hidden");
-  document.getElementById("page").classList.remove("hidden");
-  initTikTokPixel();
-  pixelViewContent();
-  window.scrollTo(0, 0);
-  initReveal();
-}
-
 function updateEarn(spend) {
   document.getElementById("spendVal").textContent = "$" + spend;
   document.getElementById("earnVal").textContent = "$" + (spend * EARN_MULTIPLIER);
@@ -501,6 +474,9 @@ function initReveal() {
 }
 
 build();
+initTikTokPixel();
+pixelViewContent();
+initReveal();
 </script>
 </body>
 </html>
