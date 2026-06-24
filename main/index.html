@@ -37,6 +37,7 @@
       --star:#f5c518;
       --hot:#ff4500;
       --muted-bg:#1a1a1a;
+      --q-grad:linear-gradient(135deg,#ff8c42 0%,#ff6b4a 55%,#e8502e 100%);
     }
 
     body{
@@ -254,6 +255,77 @@
 
     @media(max-width:399px){.hero h1{font-size:24px}}
 
+    /* =====================================================================
+     * QUIZ OVERLAY (Testerup coral)
+     * ===================================================================== */
+    .quiz-overlay{position:fixed;inset:0;z-index:200;display:none;background:#14100e;
+      padding:calc(env(safe-area-inset-top) + 0.5rem) 20px calc(env(safe-area-inset-bottom) + 0.5rem);overflow:hidden}
+    .quiz-overlay.active{display:flex;flex-direction:column}
+    .quiz-overlay::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+      background:
+        radial-gradient(40rem 28rem at 50% -6%,rgba(255,140,66,0.20),transparent 60%),
+        radial-gradient(34rem 24rem at 100% 12%,rgba(255,107,74,0.16),transparent 55%),
+        radial-gradient(30rem 22rem at 0% 30%,rgba(232,80,46,0.10),transparent 55%)}
+    .quiz-inner{position:relative;z-index:1;margin:0 auto;width:100%;max-width:440px;height:100%;display:flex;flex-direction:column}
+    .quiz-brand{display:flex;align-items:center;gap:8px;padding:8px 0 12px;flex-shrink:0}
+    .quiz-brand img{height:32px;width:32px;border-radius:9px;object-fit:cover;box-shadow:0 0 0 1px rgba(255,107,74,0.3),0 0 18px -6px rgba(255,107,74,0.6)}
+    .quiz-brand span{font-size:15px;font-weight:800;letter-spacing:-0.01em}
+    .quiz-progress-wrap{flex-shrink:0;margin-bottom:24px}
+    .quiz-progress-top{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:600}
+    .quiz-progress-track{height:6px;border-radius:99px;background:var(--muted-bg);overflow:hidden}
+    .quiz-progress-fill{height:100%;width:0%;border-radius:99px;background:var(--q-grad);transition:width .45s cubic-bezier(0.4,0,0.2,1)}
+    .quiz-stage{position:relative;flex:1;min-height:0}
+    .quiz-screen{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+      opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .4s ease,transform .4s ease;overflow-y:auto}
+    .quiz-screen.in{opacity:1;transform:translateY(0);pointer-events:auto}
+    .quiz-screen.out{opacity:0;transform:translateY(-14px);pointer-events:none}
+    .quiz-q{font-size:25px;font-weight:800;line-height:1.2;letter-spacing:-0.02em;margin-bottom:10px}
+    .quiz-q .g{background:var(--q-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .quiz-hint{font-size:14px;color:var(--muted);margin-bottom:28px}
+    .quiz-opts{display:flex;flex-direction:column;gap:12px}
+    .quiz-opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+      background:rgba(40,28,22,.6);border:1px solid var(--border);border-radius:16px;padding:17px;
+      color:var(--fg);font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;
+      box-shadow:0 12px 30px -22px rgba(0,0,0,0.8);transition:transform .12s ease,border-color .2s ease,background .2s ease;
+      -webkit-tap-highlight-color:transparent}
+    .quiz-opt:active{transform:scale(.985)}
+    .quiz-opt .label{flex:1;min-width:0}
+    .quiz-opt .arrow{display:grid;place-items:center;height:30px;width:30px;flex-shrink:0;border-radius:99px;border:1px solid var(--border);color:var(--muted);transition:all .2s ease}
+    .quiz-opt .arrow svg{width:14px;height:14px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .quiz-opt.chosen{background:var(--q-grad);color:#fff;border-color:transparent}
+    .quiz-opt.chosen .arrow{border-color:rgba(255,255,255,0.5);color:#fff}
+    .quiz-skip{display:block;text-align:center;margin-top:24px;font-size:13px;color:var(--muted);text-decoration:underline;text-underline-offset:3px;background:none;border:none;width:100%;cursor:pointer;font-family:inherit}
+    .quiz-check{width:72px;height:72px;border-radius:99px;background:var(--q-grad);display:grid;place-items:center;margin:0 auto 20px;box-shadow:0 0 50px -8px rgba(255,107,74,0.7)}
+    .quiz-check svg{width:36px;height:36px;stroke:#fff;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .quiz-result-h{text-align:center;font-size:32px;font-weight:800;letter-spacing:-0.02em;margin-bottom:24px}
+    .quiz-result-h .g{background:var(--q-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .quiz-earn-card{border-radius:20px;border:1px solid rgba(255,107,74,0.25);background:rgba(40,28,22,.6);padding:24px;text-align:center;box-shadow:0 30px 60px -30px rgba(255,107,74,0.45)}
+    .quiz-earn-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted)}
+    .quiz-earn-fig{font-size:40px;font-weight:800;letter-spacing:-0.02em;margin:6px 0;background:var(--q-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .quiz-earn-note{font-size:13px;color:var(--muted);line-height:1.5}
+    .quiz-bonus-line{text-align:center;font-size:14px;color:var(--fg);margin:18px 0 6px;font-weight:600}
+    .quiz-timer{text-align:center;font-size:14px;color:var(--muted);margin-bottom:20px}
+    .quiz-timer b{color:#ff6b4a;font-weight:700}
+    .quiz-claim{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--q-grad);color:#fff;font-weight:700;font-size:17px;border:none;border-radius:99px;padding:17px;cursor:pointer;font-family:inherit;box-shadow:0 10px 30px -8px rgba(255,107,74,0.6);animation:qPulse 2.2s ease-in-out infinite}
+    @keyframes qPulse{0%,100%{box-shadow:0 10px 30px -8px rgba(255,107,74,0.5)}50%{box-shadow:0 10px 44px -4px rgba(255,107,74,0.85)}}
+    .quiz-fine{text-align:center;font-size:11px;color:var(--muted);margin-top:14px}
+    .quiz-toast{position:fixed;top:calc(env(safe-area-inset-top) + 0.75rem);left:50%;transform:translate(-50%,-140%);
+      z-index:220;display:flex;align-items:center;gap:10px;background:rgba(28,21,18,.96);border:1px solid rgba(0,230,160,0.5);
+      border-radius:14px;padding:11px 16px;box-shadow:0 16px 40px -12px rgba(0,0,0,0.7);transition:transform .45s cubic-bezier(0.34,1.4,0.64,1);max-width:380px;width:calc(100% - 40px)}
+    .quiz-toast.show{transform:translate(-50%,0)}
+    .quiz-toast .bag{font-size:20px;flex-shrink:0}
+    .quiz-toast .t-main{flex:1;min-width:0}
+    .quiz-toast .t-label{font-size:11px;color:var(--muted);font-weight:600}
+    .quiz-toast .t-amt{font-size:17px;font-weight:800;color:#00e6a0}
+    .quiz-toast .spark{font-size:15px}
+    .quiz-trust{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid var(--border);margin-top:8px}
+    .quiz-trust-live{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)}
+    .quiz-trust-dot{width:7px;height:7px;border-radius:99px;background:#00e6a0;animation:tPulse 2s ease-in-out infinite;flex-shrink:0}
+    @keyframes tPulse{0%{box-shadow:0 0 0 0 rgba(0,230,160,0.5)}70%{box-shadow:0 0 0 7px rgba(0,230,160,0)}100%{box-shadow:0 0 0 0 rgba(0,230,160,0)}}
+    .quiz-trust-live b{color:var(--fg);font-weight:700}
+    .quiz-trust-tp{font-size:11px;color:var(--muted);white-space:nowrap}
+    @media(prefers-reduced-motion:reduce){.quiz-screen,.quiz-toast,.quiz-progress-fill{transition:none}.quiz-claim,.quiz-trust-dot{animation:none}}
+
   </style>
 </head>
 <body>
@@ -299,7 +371,7 @@
       </div>
       <div class="pill">
         <svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12" /><rect x="2" y="7" width="20" height="5" /><path d="M12 22V7" /><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" /><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" /></svg>
-        <span>Daily bonuses</span>
+        <span>Daily Bonuses</span>
       </div>
       <div class="pill">
         <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
@@ -431,6 +503,95 @@
     </div>
   </div>
 
+  <!-- ===== QUIZ OVERLAY ===== -->
+  <div class="quiz-overlay" id="quizOverlay">
+    <div class="quiz-inner">
+      <div class="quiz-brand">
+        <img src="assets/testerup-logo.webp" alt="Testerup" />
+        <span>Testerup</span>
+      </div>
+      <div class="quiz-progress-wrap">
+        <div class="quiz-progress-top">
+          <span id="quizProgLabel">Question 1 of 3</span>
+          <span id="quizProgPct">32%</span>
+        </div>
+        <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quizProgFill"></div></div>
+      </div>
+      <div class="quiz-stage" id="quizStage">
+
+        <!-- Q1 -->
+        <div class="quiz-screen" data-screen="0">
+          <h2 class="quiz-q">Would you play a free game for 5 minutes if it paid you <span class="g">real cash</span>?</h2>
+          <p class="quiz-hint">Be honest — most people say yes.</p>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(0, this, 'q1_easy')"><span class="label">Yeah — easy money 💰</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+            <button class="quiz-opt" onclick="quizAnswer(0, this, 'q1_ifpays')"><span class="label">If it actually pays — sure 👀</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+          </div>
+          <button class="quiz-skip" onclick="quizSkip()">Skip quiz &amp; start now</button>
+        </div>
+
+        <!-- Q2 -->
+        <div class="quiz-screen" data-screen="1">
+          <h2 class="quiz-q">Love it. What would an extra <span class="g">$300+ a month</span> go toward?</h2>
+          <p class="quiz-hint">Pick whatever fits — it's yours to spend.</p>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(1, this, 'treat')"><span class="label">Treat myself 🛍️</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+            <button class="quiz-opt" onclick="quizAnswer(1, this, 'bills')"><span class="label">Bills &amp; savings 💵</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+            <button class="quiz-opt" onclick="quizAnswer(1, this, 'travel')"><span class="label">Travel ✈️</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+            <button class="quiz-opt" onclick="quizAnswer(1, this, 'extra')"><span class="label">Just extra cash 🤑</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+          </div>
+          <button class="quiz-skip" onclick="quizSkip()">Skip quiz &amp; start now</button>
+        </div>
+
+        <!-- Q3 -->
+        <div class="quiz-screen" data-screen="2">
+          <h2 class="quiz-q">Last one — how do you want to <span class="g">get paid</span>?</h2>
+          <p class="quiz-hint">Cash out anytime. No minimum.</p>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(2, this, 'paypal')"><span class="label">PayPal</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+            <button class="quiz-opt" onclick="quizAnswer(2, this, 'bank')"><span class="label">Bank transfer</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+            <button class="quiz-opt" onclick="quizAnswer(2, this, 'visa')"><span class="label">Visa / gift card</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+            <button class="quiz-opt" onclick="quizAnswer(2, this, 'amazon')"><span class="label">Amazon &amp; 200+ more</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+          </div>
+          <button class="quiz-skip" onclick="quizSkip()">Skip quiz &amp; start now</button>
+        </div>
+
+        <!-- RESULT -->
+        <div class="quiz-screen" data-screen="3">
+          <div class="quiz-check"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <h2 class="quiz-result-h">You're <span class="g">in!</span></h2>
+          <div class="quiz-earn-card">
+            <div class="quiz-earn-label">Your estimated earnings</div>
+            <div class="quiz-earn-fig" id="quizEarnFig">$300–$500/mo</div>
+            <div class="quiz-earn-note">Based on spending as little as $10/week on in-app boosts ⚡</div>
+          </div>
+          <div class="quiz-bonus-line">Plus a $10 signup bonus reserved for you.</div>
+          <div class="quiz-timer">⏳ Bonus held for <b id="quizTimer">04:59</b></div>
+          <button class="quiz-claim" onclick="quizClaim()">Claim my $10 bonus
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+          <div class="quiz-fine">Instant access · No card required · 18+</div>
+        </div>
+
+      </div>
+
+      <div class="quiz-trust">
+        <div class="quiz-trust-live"><span class="quiz-trust-dot"></span><b id="quizLiveCount">4,130</b>&nbsp;earning now</div>
+        <div class="quiz-trust-tp">★ Excellent on Trustpilot</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- toast -->
+  <div class="quiz-toast" id="quizToast">
+    <span class="bag">💰</span>
+    <div class="t-main">
+      <div class="t-label">Bonus unlocked</div>
+      <div class="t-amt" id="quizToastAmt">+$2.38</div>
+    </div>
+    <span class="spark">✨</span>
+  </div>
+
   <script>
   (function () {
     var stickyCta = document.getElementById('stickyCta');
@@ -446,14 +607,118 @@
       }
     }
 
-    // Offer cards -> CTA
+    // Sticky CTA + offer cards now OPEN THE QUIZ instead of going straight to the offer
+    var stickyLink = document.getElementById('cta-link');
+    if (stickyLink) {
+      stickyLink.addEventListener('click', function (e) { e.preventDefault(); openQuiz('sticky_cta'); });
+    }
     document.querySelectorAll('.offer-card').forEach(function (card) {
-      card.addEventListener('click', function () {
-        ttq.track('AddToCart'); ttq.track('CompleteRegistration'); ttq.track('PlaceAnOrder');
-        window.open(document.getElementById('cta-link').href, '_blank');
-      });
+      card.addEventListener('click', function () { openQuiz('offer_card'); });
     });
   })();
+
+  /* ===== QUIZ FLOW ===== */
+  var quizState = { step: 0, answers: {}, timerInt: null, liveInt: null, started: false };
+  var QUIZ_TOASTS = ["+$2.38", "+$3.14", "+$4.48"];
+  var QUIZ_PROG = ["33%", "66%", "100%", "100%"];
+  var OFFER_URL = document.getElementById('cta-link').getAttribute('href');
+
+  function preventTouchScroll(e){ e.preventDefault(); }
+
+  function openQuiz(label){
+    if (window.ttq && ttq.track) ttq.track('ClickButton', { content_name: label || 'open_quiz' });
+    var ov = document.getElementById('quizOverlay');
+    ov.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    ov.addEventListener('touchmove', preventTouchScroll, { passive: false });
+    if (!quizState.started){
+      quizState.started = true;
+      showQuizScreen(0);
+      startLiveCounter();
+    }
+  }
+
+  function showQuizScreen(idx){
+    document.querySelectorAll('.quiz-screen').forEach(function(s){
+      var n = parseInt(s.getAttribute('data-screen'),10);
+      s.classList.remove('in','out');
+      if (n === idx) s.classList.add('in');
+      else if (n < idx) s.classList.add('out');
+    });
+    var pLabel = document.getElementById('quizProgLabel');
+    var pPct = document.getElementById('quizProgPct');
+    var pFill = document.getElementById('quizProgFill');
+    if (idx < 3){ pLabel.textContent = 'Question ' + (idx+1) + ' of 3'; pPct.textContent = QUIZ_PROG[idx]; pFill.style.width = QUIZ_PROG[idx]; }
+    else { pLabel.textContent = 'Complete'; pPct.textContent = '100%'; pFill.style.width = '100%'; }
+    quizState.step = idx;
+  }
+
+  function quizAnswer(qIndex, btn, value){
+    var opts = btn.parentNode.querySelectorAll('.quiz-opt');
+    opts.forEach(function(o){ o.classList.remove('chosen'); });
+    btn.classList.add('chosen');
+    quizState.answers['q'+(qIndex+1)] = value;
+    if (window.ttq && ttq.track) ttq.track('ClickButton', { content_name: 'quiz_q'+(qIndex+1)+'_'+value });
+    showQuizToast(QUIZ_TOASTS[qIndex]);
+    setTimeout(function(){
+      if (qIndex < 2){ showQuizScreen(qIndex+1); }
+      else {
+        buildResult(); showQuizScreen(3); startBonusTimer();
+        if (window.ttq && ttq.track) ttq.track('ViewContent', { content_name: 'quiz_result' });
+      }
+    }, 280);
+  }
+
+  function showQuizToast(amt){
+    var toast = document.getElementById('quizToast');
+    document.getElementById('quizToastAmt').textContent = amt;
+    if (navigator.vibrate){ try { navigator.vibrate(30); } catch(e){} }
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, 2000);
+  }
+
+  function buildResult(){
+    var q2 = quizState.answers.q2;
+    var fig = (q2 === 'travel' || q2 === 'treat') ? '$350–$600/mo' : '$300–$500/mo';
+    document.getElementById('quizEarnFig').textContent = fig;
+  }
+
+  function startBonusTimer(){
+    var el = document.getElementById('quizTimer');
+    var total = 4*60 + 59;
+    if (quizState.timerInt) clearInterval(quizState.timerInt);
+    function render(){
+      var m = String(Math.floor(total/60)).padStart(2,'0');
+      var s = String(total%60).padStart(2,'0');
+      el.textContent = m + ':' + s;
+    }
+    render();
+    quizState.timerInt = setInterval(function(){
+      if (total > 0){ total--; render(); } else { clearInterval(quizState.timerInt); }
+    }, 1000);
+  }
+
+  function startLiveCounter(){
+    var el = document.getElementById('quizLiveCount');
+    var n = 4130;
+    if (quizState.liveInt) clearInterval(quizState.liveInt);
+    quizState.liveInt = setInterval(function(){
+      n += Math.floor(Math.random()*8) - 4;
+      if (n < 4080) n = 4080;
+      if (n > 4220) n = 4220;
+      el.textContent = n.toLocaleString('en-US');
+    }, 3000);
+  }
+
+  function quizSkip(){
+    if (window.ttq && ttq.track){ ttq.track('ClickButton', { content_name: 'quiz_skip' }); ttq.track('AddToCart'); ttq.track('CompleteRegistration'); ttq.track('PlaceAnOrder'); }
+    window.open(document.getElementById('cta-link').href, '_blank');
+  }
+
+  function quizClaim(){
+    if (window.ttq && ttq.track){ ttq.track('AddToCart'); ttq.track('CompleteRegistration'); ttq.track('PlaceAnOrder'); }
+    window.open(document.getElementById('cta-link').href, '_blank');
+  }
   </script>
 </body>
 </html>
