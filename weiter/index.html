@@ -149,7 +149,7 @@
 
         var dest = DEST;
 
-        // If NOT in an in-app Browser, skip the breakout screen and redirect immediately.
+        // If NOT in an in-app browser, skip the breakout screen and redirect immediately.
         var force = /[?&]force=1/.test(window.location.search);
         if (!isInAppBrowser() && !force) {
             window.location.replace(dest);
