@@ -9,12 +9,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --green: oklch(0.72 0.22 350);
-            --green-dim: oklch(0.65 0.24 305);
-            --glow: oklch(0.72 0.22 350 / 0.5);
-            --glow-soft: oklch(0.72 0.22 350 / 0.18);
-            --bg: oklch(0.16 0.04 290);
-            --grad: linear-gradient(90deg, oklch(0.78 0.17 50), oklch(0.72 0.22 350), oklch(0.65 0.24 305));
+            --green: #00c84f;
+            --green-dim: #00a942;
+            --glow: rgba(0,200,79,0.5);
+            --glow-soft: rgba(0,200,79,0.18);
+            --bg: #0c0c0c;
+            --grad: linear-gradient(90deg, #1ae068, #00c84f, #00a942);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { height: 100%; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
@@ -31,34 +31,34 @@
         .glow-blob { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
         .glow-blob-1 {
             width: 500px; height: 500px; top: 50%; left: 50%; transform: translate(-50%, -60%);
-            background: radial-gradient(circle, oklch(0.72 0.22 350 / .16) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(0,200,79,0.16) 0%, transparent 70%);
             animation: blobDrift 6s ease-in-out infinite alternate;
         }
         .glow-blob-2 {
             width: 300px; height: 300px; bottom: -80px; right: -60px;
-            background: radial-gradient(circle, oklch(0.65 0.24 305 / .12) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(0,169,66,0.12) 0%, transparent 70%);
         }
         @keyframes blobDrift { from { transform: translate(-50%, -60%) scale(1); } to { transform: translate(-50%, -55%) scale(1.08); } }
         .wrap { position: relative; z-index: 1; max-width: 400px; width: 100%; text-align: center; animation: fadeUp .5s ease both; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         .icon-wrap {
             width: 90px; height: 90px; margin: 0 auto 32px; border-radius: 24px;
-            border: 1px solid oklch(0.72 0.22 350 / .3);
-            background: linear-gradient(160deg, oklch(0.72 0.22 350 / .1) 0%, rgba(0,0,0,0) 100%);
+            border: 1px solid rgba(0,200,79,0.3);
+            background: linear-gradient(160deg, rgba(0,200,79,0.1) 0%, rgba(0,0,0,0) 100%);
             display: grid; place-items: center;
-            box-shadow: 0 0 50px oklch(0.72 0.22 350 / .22), inset 0 1px 0 rgba(255,255,255,.05);
+            box-shadow: 0 0 50px rgba(0,200,79,0.22), inset 0 1px 0 rgba(255,255,255,.05);
             animation: iconGlow 3s ease-in-out infinite;
         }
         @keyframes iconGlow {
-            0%,100% { box-shadow: 0 0 50px oklch(0.72 0.22 350 / .22), inset 0 1px 0 rgba(255,255,255,.05); }
-            50% { box-shadow: 0 0 80px oklch(0.72 0.22 350 / .4), inset 0 1px 0 rgba(255,255,255,.05); }
+            0%,100% { box-shadow: 0 0 50px rgba(0,200,79,0.22), inset 0 1px 0 rgba(255,255,255,.05); }
+            50% { box-shadow: 0 0 80px rgba(0,200,79,0.4), inset 0 1px 0 rgba(255,255,255,.05); }
         }
         .icon-wrap svg { width: 38px; height: 38px; color: var(--green); stroke-width: 2.2; }
         h1 { font-family: 'Bebas Neue', sans-serif; font-size: 56px; line-height: 1; letter-spacing: 1px; margin-bottom: 14px; color: #fff; }
-        h1 .hl { color: var(--green); text-shadow: 0 0 30px oklch(0.72 0.22 350 / .55); }
+        h1 .hl { color: var(--green); text-shadow: 0 0 30px rgba(0,200,79,0.55); }
         .sub { font-size: 15px; color: #7a8085; line-height: 1.55; margin-bottom: 40px; font-weight: 400; }
         .cta {
-            display: block; width: 100%; background: var(--grad); color: #fff;
+            display: block; width: 100%; background: var(--grad); color: #000;
             font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 3px;
             text-transform: uppercase; padding: 19px 24px; border-radius: 999px; border: none; cursor: pointer;
             box-shadow: 0 0 50px var(--glow), 0 4px 24px rgba(0,0,0,.5);
@@ -149,7 +149,6 @@
 
         var dest = DEST;
 
-        // If NOT in an in-app Browser, skip the breakout screen and redirect immediately.
         var force = /[?&]force=1/.test(window.location.search);
         if (!isInAppBrowser() && !force) {
             window.location.replace(dest);
