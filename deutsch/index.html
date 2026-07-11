@@ -36,6 +36,7 @@
       --star:#f5c518;
       --hot:#ff4500;
       --muted-bg:#1a1a1a;
+      --q-grad:linear-gradient(135deg,#00e85a 0%,#00c84f 55%,#00a942 100%);
     }
 
     body{
@@ -312,6 +313,63 @@
     .pf-sticky .cta-btn svg{stroke:#fff}
     .pf-sticky .cta-cue svg{stroke:var(--primary)}
     .pf-sticky .sticky-cta-bg{background:linear-gradient(to top,#0e0a1a 55%,rgba(14,10,26,0.85) 80%,transparent)}
+    /* ===== QUIZ OVERLAY (FreeCash green) ===== */
+    .quiz-overlay{position:fixed;inset:0;z-index:200;display:none;background:#0c0c0c;padding:calc(env(safe-area-inset-top) + 0.5rem) 20px calc(env(safe-area-inset-bottom) + 0.5rem);overflow:hidden}
+    .quiz-overlay.active{display:flex;flex-direction:column}
+    .quiz-overlay::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(40rem 28rem at 50% -6%,rgba(0,232,90,0.16),transparent 60%),radial-gradient(34rem 24rem at 100% 12%,rgba(0,200,79,0.12),transparent 55%)}
+    .quiz-inner{position:relative;z-index:1;margin:0 auto;width:100%;max-width:440px;height:100%;display:flex;flex-direction:column}
+    .quiz-brand{display:flex;align-items:center;gap:8px;padding:8px 0 12px;flex-shrink:0}
+    .quiz-brand img{height:30px;width:auto;object-fit:contain}
+    .quiz-brand span{font-size:15px;font-weight:800;letter-spacing:-0.01em}
+    .quiz-progress-wrap{flex-shrink:0;margin-bottom:24px}
+    .quiz-progress-top{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:600}
+    .quiz-progress-track{height:6px;border-radius:99px;background:var(--muted-bg);overflow:hidden}
+    .quiz-progress-fill{height:100%;width:0%;border-radius:99px;background:var(--q-grad);transition:width .45s cubic-bezier(0.4,0,0.2,1)}
+    .quiz-stage{position:relative;flex:1;min-height:0}
+    .quiz-screen{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .4s ease,transform .4s ease;overflow-y:auto}
+    .quiz-screen.in{opacity:1;transform:translateY(0);pointer-events:auto}
+    .quiz-screen.out{opacity:0;transform:translateY(-14px);pointer-events:none}
+    .quiz-q{font-size:25px;font-weight:800;line-height:1.2;letter-spacing:-0.02em;margin-bottom:10px}
+    .quiz-q .g{background:var(--q-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .quiz-hint{font-size:14px;color:var(--muted);margin-bottom:28px}
+    .quiz-opts{display:flex;flex-direction:column;gap:12px}
+    .quiz-opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#161616;border:1px solid var(--border);border-radius:16px;padding:17px;color:var(--fg);font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;box-shadow:0 12px 30px -22px rgba(0,0,0,0.8);transition:transform .12s ease,border-color .2s ease,background .2s ease;-webkit-tap-highlight-color:transparent}
+    .quiz-opt:active{transform:scale(.985)}
+    .quiz-opt .label{flex:1;min-width:0}
+    .quiz-opt .arrow{display:grid;place-items:center;height:30px;width:30px;flex-shrink:0;border-radius:99px;border:1px solid var(--border);color:var(--muted);transition:all .2s ease}
+    .quiz-opt .arrow svg{width:14px;height:14px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .quiz-opt.chosen{background:var(--q-grad);color:#000;border-color:transparent}
+    .quiz-opt.chosen .arrow{border-color:rgba(0,0,0,0.35);color:#000}
+    .quiz-skip{display:block;text-align:center;margin-top:24px;font-size:13px;color:var(--muted);text-decoration:underline;text-underline-offset:3px;background:none;border:none;width:100%;cursor:pointer;font-family:inherit}
+    .quiz-check{width:72px;height:72px;border-radius:99px;background:var(--q-grad);display:grid;place-items:center;margin:0 auto 20px;box-shadow:0 0 50px -8px rgba(0,200,79,0.7)}
+    .quiz-check svg{width:36px;height:36px;stroke:#000;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .quiz-result-h{text-align:center;font-size:30px;font-weight:800;letter-spacing:-0.02em;margin-bottom:24px}
+    .quiz-result-h .g{background:var(--q-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .quiz-earn-card{border-radius:20px;border:1px solid rgba(0,200,79,0.25);background:#161616;padding:24px;text-align:center;box-shadow:0 30px 60px -30px rgba(0,200,79,0.45)}
+    .quiz-earn-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted)}
+    .quiz-earn-fig{font-size:40px;font-weight:800;letter-spacing:-0.02em;margin:6px 0;background:var(--q-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .quiz-earn-note{font-size:13px;color:var(--muted);line-height:1.5}
+    .quiz-bonus-line{text-align:center;font-size:14px;color:var(--fg);margin:18px 0 6px;font-weight:600}
+    .quiz-timer{text-align:center;font-size:14px;color:var(--muted);margin-bottom:20px}
+    .quiz-timer b{color:#00c84f;font-weight:700}
+    .quiz-claim{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--q-grad);color:#000;font-weight:800;font-size:17px;border:none;border-radius:99px;padding:17px;cursor:pointer;font-family:inherit;box-shadow:0 10px 30px -8px rgba(0,200,79,0.6);animation:qPulse 2.2s ease-in-out infinite}
+    @keyframes qPulse{0%,100%{box-shadow:0 10px 30px -8px rgba(0,200,79,0.5)}50%{box-shadow:0 10px 44px -4px rgba(0,200,79,0.85)}}
+    .quiz-claim svg{stroke:#000}
+    .quiz-fine{text-align:center;font-size:11px;color:var(--muted);margin-top:14px}
+    .quiz-toast{position:fixed;top:calc(env(safe-area-inset-top) + 0.75rem);left:50%;transform:translate(-50%,-140%);z-index:220;display:flex;align-items:center;gap:10px;background:rgba(18,18,18,.96);border:1px solid rgba(0,200,79,0.55);border-radius:14px;padding:11px 16px;box-shadow:0 16px 40px -12px rgba(0,0,0,0.7);transition:transform .45s cubic-bezier(0.34,1.4,0.64,1);max-width:380px;width:calc(100% - 40px)}
+    .quiz-toast.show{transform:translate(-50%,0)}
+    .quiz-toast .bag{font-size:20px;flex-shrink:0}
+    .quiz-toast .t-main{flex:1;min-width:0}
+    .quiz-toast .t-label{font-size:11px;color:var(--muted);font-weight:600}
+    .quiz-toast .t-amt{font-size:17px;font-weight:800;color:#00e85a}
+    .quiz-toast .spark{font-size:15px}
+    .quiz-trust{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid var(--border);margin-top:8px}
+    .quiz-trust-live{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)}
+    .quiz-trust-dot{width:7px;height:7px;border-radius:99px;background:#00e85a;animation:tPulse 2s ease-in-out infinite;flex-shrink:0}
+    @keyframes tPulse{0%{box-shadow:0 0 0 0 rgba(0,232,90,0.5)}70%{box-shadow:0 0 0 7px rgba(0,232,90,0)}100%{box-shadow:0 0 0 0 rgba(0,232,90,0)}}
+    .quiz-trust-live b{color:var(--fg);font-weight:700}
+    .quiz-trust-tp{font-size:11px;color:var(--muted);white-space:nowrap}
+    @media(prefers-reduced-motion:reduce){.quiz-screen,.quiz-toast,.quiz-progress-fill{transition:none}.quiz-claim,.quiz-trust-dot{animation:none}}
   </style>
 </head>
 <body>
@@ -673,10 +731,10 @@
     <div class="sticky-age-notice">
       <span>⚠️</span> Gib bei der Anmeldung ein Alter von <strong>21+</strong> an, um alle Angebote freizuschalten.
     </div>
-    <a href="https://trksy.org/aff_c?tl_id=0a6301d5&source=newneww"
+    <a href="https://trksy.org/aff_c?tl_id=0a6301d5&source=toasty"
       class="cta-btn" id="cta-link" target="_blank" rel="noopener noreferrer"
-      onclick="ttq.track('AddToCart');ttq.track('CompleteRegistration');ttq.track('PlaceAnOrder');">
-      Jetzt downloaden
+      onclick="event.preventDefault();openQuiz('sticky_cta');">
+      Jetzt anmelden
       <svg viewBox="0 0 24 24"><polyline points="5 12 19 12" /><polyline points="12 5 19 12 12 19" /></svg>
     </a>
   </div>
@@ -686,7 +744,7 @@
     <div class="cta-cue" aria-hidden="true">
       <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
     </div>
-    <a href="https://giftclick.org/aff_c?offer_id=4439&aff_id=9155&source=newneww"
+    <a href="https://giftclick.org/aff_c?offer_id=4439&aff_id=9155&source=toasty"
       class="cta-btn" id="cta-link-pf" target="_blank" rel="noopener noreferrer"
       onclick="ttq.track('AddToCart');ttq.track('CompleteRegistration');ttq.track('PlaceAnOrder');">
       Spiel wählen & loslegen
@@ -763,12 +821,7 @@
 
     // Make offer cards fire the matching side's CTA
     document.querySelectorAll('#screen-lander .offer-card').forEach(function (card) {
-      card.addEventListener('click', function () {
-        ttq.track('AddToCart');
-        ttq.track('CompleteRegistration');
-        ttq.track('PlaceAnOrder');
-        window.open(document.getElementById('cta-link').href, '_blank');
-      });
+      card.addEventListener('click', function () { openQuiz('offer_card'); });
     });
     document.querySelectorAll('#screen-playful .offer-card').forEach(function (card) {
       card.addEventListener('click', function () {
@@ -779,6 +832,166 @@
       });
     });
   })();
+
+  /* ===== QUIZ FLOW (FreeCash 21+ only) ===== */
+  var quizState = { step:0, answers:{}, timerInt:null, liveInt:null, started:false };
+  var QUIZ_TOAST_LABELS = ["Belohnung freigeschaltet", "⚡ Boost-Multiplikator aktiv", "Fast geschafft"];
+  var QUIZ_PROG = ["33%","66%","100%","100%"];
+  function preventTouchScroll(e){ e.preventDefault(); }
+
+  function openQuiz(label){
+    if (window.ttq && ttq.track) ttq.track('ClickButton', { content_name: label || 'open_quiz' });
+    var ov = document.getElementById('quizOverlay');
+    ov.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    ov.addEventListener('touchmove', preventTouchScroll, { passive:false });
+    if (!quizState.started){ quizState.started = true; showQuizScreen(0); startLiveCounter(); }
+  }
+  function showQuizScreen(idx){
+    document.querySelectorAll('.quiz-screen').forEach(function(s){
+      var n = parseInt(s.getAttribute('data-screen'),10);
+      s.classList.remove('in','out');
+      if (n===idx) s.classList.add('in'); else if (n<idx) s.classList.add('out');
+    });
+    var pLabel=document.getElementById('quizProgLabel'),pPct=document.getElementById('quizProgPct'),pFill=document.getElementById('quizProgFill');
+    if (idx<3){ pLabel.textContent='Frage '+(idx+1)+' von 3'; pPct.textContent=QUIZ_PROG[idx]; pFill.style.width=QUIZ_PROG[idx]; }
+    else { pLabel.textContent='Fertig'; pPct.textContent='100%'; pFill.style.width='100%'; }
+    quizState.step=idx;
+  }
+  function quizAnswer(qIndex, btn, value){
+    var opts=btn.parentNode.querySelectorAll('.quiz-opt');
+    opts.forEach(function(o){ o.classList.remove('chosen'); });
+    btn.classList.add('chosen');
+    quizState.answers['q'+(qIndex+1)]=value;
+    if (window.ttq && ttq.track) ttq.track('ClickButton', { content_name:'quiz_q'+(qIndex+1)+'_'+value });
+    showQuizToast(QUIZ_TOAST_LABELS[qIndex]);
+    setTimeout(function(){
+      if (qIndex<2){ showQuizScreen(qIndex+1); }
+      else { buildResult(); showQuizScreen(3); startBonusTimer(); if (window.ttq && ttq.track) ttq.track('ViewContent',{content_name:'quiz_result'}); }
+    }, 280);
+  }
+  function showQuizToast(label){
+    var toast=document.getElementById('quizToast');
+    var lbl=document.getElementById('quizToastLabel'); if (lbl && label) lbl.textContent=label;
+    if (navigator.vibrate){ try{ navigator.vibrate(30); }catch(e){} }
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, 2000);
+  }
+  function buildResult(){
+    var fast = quizState.answers.q2==='fast';
+    var boost = quizState.answers.q3==='boost_yes';
+    var fig=document.getElementById('quizEarnFig'), note=document.getElementById('quizEarnNote'), lbl=document.querySelector('.quiz-earn-label');
+    if (fast || boost){
+      if (lbl) lbl.textContent='Dein 2,99 €-Starterpaket schaltet frei';
+      fig.textContent='40 €+';
+      if (note) note.textContent='Dein 2,99 €-Boost zahlt sich bei deiner ersten Auszahlung aus — danach ist jede Auszahlung reiner Gewinn ⚡';
+    } else {
+      if (lbl) lbl.textContent='Mit dem 2,99 €-Boost schaltest du frei';
+      fig.textContent='3× schneller';
+      if (note) note.textContent='Auch ohne Boost verdienst du — aber die 2,99 €-Schnellspur bringt dir ~3× mehr Auszahlungen und ist bei der ersten Auszahlung wieder drin ⚡';
+    }
+  }
+  function startBonusTimer(){
+    var el=document.getElementById('quizTimer'); var total=4*60+59;
+    if (quizState.timerInt) clearInterval(quizState.timerInt);
+    function render(){ var m=String(Math.floor(total/60)).padStart(2,'0'),s=String(total%60).padStart(2,'0'); el.textContent=m+':'+s; }
+    render();
+    quizState.timerInt=setInterval(function(){ if(total>0){total--;render();}else{clearInterval(quizState.timerInt);} },1000);
+  }
+  function startLiveCounter(){
+    var el=document.getElementById('quizLiveCount'); var n=4130;
+    if (quizState.liveInt) clearInterval(quizState.liveInt);
+    quizState.liveInt=setInterval(function(){ n+=Math.floor(Math.random()*8)-4; if(n<4080)n=4080; if(n>4220)n=4220; el.textContent=n.toLocaleString('de-DE'); },3000);
+  }
+  function quizSkip(){
+    if (window.ttq && ttq.track){ ttq.track('ClickButton',{content_name:'quiz_skip'}); }
+    buildResult();
+    showQuizScreen(3);
+    startBonusTimer();
+    if (window.ttq && ttq.track){ ttq.track('ViewContent',{content_name:'quiz_result_skip'}); }
+  }
+  function quizClaim(){
+    if (window.ttq && ttq.track){ ttq.track('AddToCart'); ttq.track('CompleteRegistration'); ttq.track('PlaceAnOrder'); }
+    window.open(document.getElementById('cta-link').href, '_blank');
+  }
   </script>
+  <!-- ===== QUIZ OVERLAY (FreeCash, 21+) ===== -->
+  <div class="quiz-overlay" id="quizOverlay">
+    <div class="quiz-inner">
+      <div class="quiz-brand">
+        <img src="assets/freecash-logo.webp" alt="FreeCash" />
+        <span>FreeCash</span>
+      </div>
+      <div class="quiz-progress-wrap">
+        <div class="quiz-progress-top"><span id="quizProgLabel">Frage 1 von 3</span><span id="quizProgPct">33%</span></div>
+        <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quizProgFill"></div></div>
+      </div>
+      <div class="quiz-stage" id="quizStage">
+
+        <!-- Q1 -->
+        <div class="quiz-screen" data-screen="0">
+          <h2 class="quiz-q">Würdest du 5 Minuten ein kostenloses Spiel spielen, wenn es dir <span class="g">echtes Geld</span> zahlt?</h2>
+          <p class="quiz-hint">Sei ehrlich — die meisten sagen ja.</p>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(0, this, 'q1_easy')"><span class="label">Klar — leicht verdientes Geld 💰</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+            <button class="quiz-opt" onclick="quizAnswer(0, this, 'q1_ifpays')"><span class="label">Wenn es wirklich zahlt — klar 👀</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+          </div>
+          <button class="quiz-skip" onclick="quizSkip()">Quiz überspringen &amp; direkt starten</button>
+        </div>
+
+        <!-- Q2 : spend-to-earn anchor -->
+        <div class="quiz-screen" data-screen="1">
+          <h2 class="quiz-q">Clever. Spieler mit dem <span class="g">2,99 €-Starterpaket</span> verdienen etwa 3× schneller. Was bist du?</h2>
+          <p class="quiz-hint">Gleiche Spiele — das Paket beschleunigt nur jede Auszahlung.</p>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(1, this, 'fast')"><span class="label">Schnelle Spur ⚡ (die meisten)</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+            <button class="quiz-opt" onclick="quizAnswer(1, this, 'slow')"><span class="label">Langsame Spur — ich warte 🐢</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+          </div>
+          <button class="quiz-skip" onclick="quizSkip()">Quiz überspringen &amp; direkt starten</button>
+        </div>
+
+        <!-- Q3 : goal-gradient + commitment -->
+        <div class="quiz-screen" data-screen="2">
+          <h2 class="quiz-q">Du bist nur <span class="g">1 Level</span> von deiner ersten Auszahlung entfernt. Boost holen und heute schaffen?</h2>
+          <p class="quiz-hint">Boosts ab 2,99 € — sofort im Spiel freigeschaltet.</p>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(2, this, 'boost_yes')"><span class="label">Ja — bring mich hin ⚡</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+            <button class="quiz-opt" onclick="quizAnswer(2, this, 'boost_later')"><span class="label">Vielleicht später</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+          </div>
+          <button class="quiz-skip" onclick="quizSkip()">Quiz überspringen &amp; direkt starten</button>
+        </div>
+
+        <!-- RESULT -->
+        <div class="quiz-screen" data-screen="3">
+          <div class="quiz-check"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <h2 class="quiz-result-h">Deine schnelle Spur ist <span class="g">bereit!</span></h2>
+          <div class="quiz-earn-card">
+            <div class="quiz-earn-label">Dein 2,99 €-Starterpaket schaltet frei</div>
+            <div class="quiz-earn-fig" id="quizEarnFig">40 €+</div>
+            <div class="quiz-earn-note" id="quizEarnNote">Dein 2,99 €-Boost zahlt sich bei deiner ersten Auszahlung aus — danach ist jede Auszahlung reiner Gewinn ⚡</div>
+          </div>
+          <div class="quiz-bonus-line">Plus 10 € Willkommensbonus obendrauf.</div>
+          <div class="quiz-timer">⏳ Boost + Bonus reserviert für <b id="quizTimer">04:59</b></div>
+          <button class="quiz-claim" onclick="quizClaim()">Jetzt downloaden
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+          <div class="quiz-fine">Sofortiger Zugang · Boost im Spiel · 21+</div>
+        </div>
+
+      </div>
+
+      <div class="quiz-trust">
+        <div class="quiz-trust-live"><span class="quiz-trust-dot"></span><b id="quizLiveCount">4.130</b>&nbsp;verdienen gerade</div>
+        <div class="quiz-trust-tp">★ Ausgezeichnet auf Trustpilot</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quiz-toast" id="quizToast">
+    <span class="bag">💰</span>
+    <div class="t-main"><div class="t-label" id="quizToastLabel">Belohnung freigeschaltet</div></div>
+    <span class="spark">✨</span>
+  </div>
+
 </body>
 </html>
