@@ -17,6 +17,7 @@
    * DESIGN TOKENS — ported from the Lovable design system (oklch)
    * ===================================================================== */
   :root {
+  --q-grad: linear-gradient(135deg, #7a4ff2 0%, #ef4d8f 55%, #fb8a34 100%);
     --radius: 0.875rem;
     --background: oklch(0.99 0.004 290);
     --foreground: oklch(0.22 0.03 290);
@@ -274,6 +275,119 @@
   }
 
 
+  /* =====================================================================
+   * QUIZ OVERLAY — launched on main CTA click
+   * ===================================================================== */
+  .quiz-overlay {
+    position: fixed; inset: 0; z-index: 200; display: none;
+    background: var(--background);
+    padding: calc(env(safe-area-inset-top) + 0.5rem) 1.25rem calc(env(safe-area-inset-bottom) + 0.5rem);
+    overflow: hidden;
+  }
+  .quiz-overlay.active { display: flex; flex-direction: column; }
+  .quiz-overlay::before {
+    content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(40rem 28rem at 50% -6%, rgba(122,79,242,0.22), transparent 60%),
+      radial-gradient(34rem 24rem at 100% 12%, rgba(239,77,143,0.16), transparent 55%),
+      radial-gradient(30rem 22rem at 0% 30%, rgba(251,138,52,0.10), transparent 55%);
+  }
+  .quiz-inner { position: relative; z-index: 1; margin: 0 auto; width: 100%; max-width: 440px; height: 100%; display: flex; flex-direction: column; }
+
+  .quiz-brand { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0 0.75rem; flex-shrink: 0; }
+  .quiz-brand img { height: 2rem; width: 2rem; border-radius: 0.6rem; object-fit: cover; box-shadow: 0 0 0 1px rgba(239,77,143,0.3), 0 0 18px -6px rgba(239,77,143,0.6); }
+  .quiz-brand span { font-size: 0.95rem; font-weight: 700; letter-spacing: -0.01em; }
+
+  .quiz-progress-wrap { flex-shrink: 0; margin-bottom: 1.5rem; }
+  .quiz-progress-top { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted-foreground); margin-bottom: 0.5rem; font-weight: 600; }
+  .quiz-progress-track { height: 6px; border-radius: 9999px; background: var(--secondary); overflow: hidden; }
+  .quiz-progress-fill { height: 100%; width: 0%; border-radius: 9999px; background: var(--q-grad); transition: width 0.45s cubic-bezier(0.4,0,0.2,1); }
+
+  .quiz-stage { position: relative; flex: 1; min-height: 0; }
+  .quiz-screen {
+    position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center;
+    opacity: 0; transform: translateY(14px); pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    overflow-y: auto;
+  }
+  .quiz-screen.in { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .quiz-screen.out { opacity: 0; transform: translateY(-14px); pointer-events: none; }
+
+  .quiz-q { font-size: 1.55rem; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+  .quiz-q .g { background: var(--q-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .quiz-hint { font-size: 0.875rem; color: var(--muted-foreground); margin-bottom: 1.75rem; }
+
+  .quiz-opts { display: flex; flex-direction: column; gap: 0.75rem; }
+  .quiz-opt {
+    display: flex; align-items: center; gap: 0.85rem; width: 100%; text-align: left;
+    background: var(--card); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    border: 1px solid var(--border); border-radius: 1rem; padding: 1.05rem 1.1rem;
+    color: var(--foreground); font-size: 1rem; font-weight: 600; font-family: inherit; cursor: pointer;
+    box-shadow: 0 12px 30px -22px rgba(0,0,0,0.28); transition: transform 0.12s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .quiz-opt:active { transform: scale(0.985); }
+  .quiz-opt .label { flex: 1; min-width: 0; }
+  .quiz-opt .arrow { display: grid; place-items: center; height: 1.85rem; width: 1.85rem; flex-shrink: 0; border-radius: 9999px; border: 1px solid var(--border); color: var(--muted-foreground); transition: all 0.2s ease; }
+  .quiz-opt .arrow svg { width: 0.9rem; height: 0.9rem; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .quiz-opt.chosen { background: var(--q-grad); color: #fff; border-color: transparent; }
+  .quiz-opt.chosen .arrow { border-color: rgba(255,255,255,0.5); color: #fff; }
+
+  .quiz-skip { display: block; text-align: center; margin-top: 1.5rem; font-size: 0.8rem; color: var(--muted-foreground); text-decoration: underline; text-underline-offset: 3px; background: none; border: none; width: 100%; cursor: pointer; font-family: inherit; }
+  .quiz-skip:hover { color: var(--foreground); }
+
+  .quiz-check { width: 4.5rem; height: 4.5rem; border-radius: 9999px; background: var(--q-grad); display: grid; place-items: center; margin: 0 auto 1.25rem; box-shadow: 0 0 50px -8px rgba(239,77,143,0.7); }
+  .quiz-check svg { width: 2.2rem; height: 2.2rem; stroke: #fff; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .quiz-result-h { text-align: center; font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  .quiz-result-h .g { background: var(--q-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .quiz-earn-card { border-radius: 1.25rem; border: 1px solid rgba(239,77,143,0.25); background: var(--card); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); padding: 1.5rem; text-align: center; box-shadow: 0 30px 60px -30px rgba(239,77,143,0.45); }
+  .quiz-earn-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted-foreground); }
+  .quiz-earn-fig { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.02em; margin: 0.4rem 0; background: var(--q-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .quiz-earn-note { font-size: 0.8rem; color: var(--muted-foreground); line-height: 1.5; }
+  .quiz-bonus-line { text-align: center; font-size: 0.9rem; color: var(--foreground); margin: 1.1rem 0 0.4rem; font-weight: 600; }
+  .quiz-timer { text-align: center; font-size: 0.85rem; color: var(--muted-foreground); margin-bottom: 1.25rem; }
+  .quiz-timer b { color: #ef4d8f; font-weight: 700; }
+  .quiz-claim {
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%;
+    background: var(--q-grad); color: #fff; font-weight: 700; font-size: 1.05rem; border: none;
+    border-radius: 9999px; padding: 1.05rem; cursor: pointer; font-family: inherit;
+    box-shadow: 0 10px 30px -8px rgba(239,77,143,0.6); animation: quizPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes quizPulse {
+    0%,100% { box-shadow: 0 10px 30px -8px rgba(239,77,143,0.5); }
+    50% { box-shadow: 0 10px 44px -4px rgba(239,77,143,0.85); }
+  }
+  .quiz-fine { text-align: center; font-size: 0.72rem; color: var(--muted-foreground); margin-top: 0.85rem; }
+
+  .quiz-toast {
+    position: fixed; top: calc(env(safe-area-inset-top) + 0.75rem); left: 50%; transform: translate(-50%, -140%);
+    z-index: 220; display: flex; align-items: center; gap: 0.65rem;
+    background: var(--card); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    border: 1px solid rgba(0,230,160,0.5); border-radius: 0.9rem; padding: 0.7rem 1rem;
+    box-shadow: 0 16px 40px -12px rgba(0,0,0,0.7); transition: transform 0.45s cubic-bezier(0.34,1.4,0.64,1); max-width: 380px; width: calc(100% - 2.5rem);
+  }
+  .quiz-toast.show { transform: translate(-50%, 0); }
+  .quiz-toast .bag { font-size: 1.3rem; flex-shrink: 0; }
+  .quiz-toast .t-main { flex: 1; min-width: 0; }
+  .quiz-toast .t-label { font-size: 0.7rem; color: var(--muted-foreground); font-weight: 600; }
+  .quiz-toast .t-amt { font-size: 1.05rem; font-weight: 800; color: #00e6a0; }
+  .quiz-toast .spark { font-size: 0.95rem; }
+
+  .quiz-trust { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); margin-top: 0.5rem; }
+  .quiz-trust-live { display: flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; color: var(--muted-foreground); }
+  .quiz-trust-dot { width: 7px; height: 7px; border-radius: 9999px; background: #00e6a0; animation: trustPulse 2s ease-in-out infinite; flex-shrink: 0; }
+  @keyframes trustPulse {
+    0% { box-shadow: 0 0 0 0 rgba(0,230,160,0.5); }
+    70% { box-shadow: 0 0 0 7px rgba(0,230,160,0); }
+    100% { box-shadow: 0 0 0 0 rgba(0,230,160,0); }
+  }
+  .quiz-trust-live b { color: var(--foreground); font-weight: 700; }
+  .quiz-trust-tp { font-size: 0.72rem; color: var(--muted-foreground); white-space: nowrap; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .quiz-screen, .quiz-toast, .quiz-progress-fill { transition: none; }
+    .quiz-claim, .quiz-trust-dot { animation: none; }
+  }
+
 </style>
 </head>
 <body>
@@ -299,7 +413,7 @@
     <h1 class="headline">Get paid to play <span class="accent-text">games on your phone.</span></h1>
     <p class="sub">Play mobile games, test new apps, and answer short surveys. Cash out real money to PayPal, Venmo, or your bank.</p>
     <div class="cta-row">
-      <button class="btn-primary btn-max-sm" onclick="goToOfferwall('hero_cta')">
+      <button class="btn-primary btn-max-sm" onclick="openQuiz('hero_cta')">
         Start earning
         <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </button>
@@ -352,7 +466,7 @@
     <h2>Ready to <span class="accent-text">earn?</span></h2>
     <p class="section-sub">Free to join. Cash out from $1.</p>
     <div class="cta-row" style="margin-top:1.5rem; display:flex; justify-content:center;">
-      <button class="btn-primary btn-max-sm" onclick="goToOfferwall('footer_cta')">
+      <button class="btn-primary btn-max-sm" onclick="openQuiz('footer_cta')">
         Start earning
         <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </button>
@@ -362,7 +476,7 @@
 
   <!-- Sticky mobile bar -->
   <div class="sticky-bar">
-    <button class="btn-primary btn-block" onclick="goToOfferwall('sticky_cta')">
+    <button class="btn-primary btn-block" onclick="openQuiz('sticky_cta')">
       Start earning
       <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
     </button>
@@ -370,16 +484,108 @@
 
 </div>
 
+<!-- ===== QUIZ OVERLAY ===== -->
+<div class="quiz-overlay" id="quizOverlay">
+  <div class="quiz-inner">
+    <div class="quiz-brand">
+      <img src="reco-logo.webp" alt="Reco Social" />
+      <span>Reco Social</span>
+    </div>
+
+    <div class="quiz-progress-wrap">
+      <div class="quiz-progress-top">
+        <span id="quizProgLabel">Question 1 of 3</span>
+        <span id="quizProgPct">33%</span>
+      </div>
+      <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quizProgFill"></div></div>
+    </div>
+
+    <div class="quiz-stage" id="quizStage">
+
+      <!-- Q1 -->
+      <div class="quiz-screen" data-screen="0">
+        <h2 class="quiz-q">Would you play a free game for 5 minutes if it paid you <span class="g">real cash</span>?</h2>
+        <p class="quiz-hint">Be honest — most people say yes.</p>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="quizAnswer(0, this, 'q1_easy')"><span class="label">Yeah — easy money 💰</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+          <button class="quiz-opt" onclick="quizAnswer(0, this, 'q1_ifpays')"><span class="label">If it actually pays — sure 👀</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+        </div>
+        <button class="quiz-skip" onclick="quizSkip()">Skip quiz &amp; start now</button>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-screen" data-screen="1">
+        <h2 class="quiz-q">Love it. What would an extra <span class="g">$300+ a month</span> go toward?</h2>
+        <p class="quiz-hint">Pick whatever fits — it's yours to spend.</p>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="quizAnswer(1, this, 'treat')"><span class="label">Treat myself 🛍️</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+          <button class="quiz-opt" onclick="quizAnswer(1, this, 'bills')"><span class="label">Bills &amp; savings 💵</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+          <button class="quiz-opt" onclick="quizAnswer(1, this, 'travel')"><span class="label">Travel ✈️</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+          <button class="quiz-opt" onclick="quizAnswer(1, this, 'extra')"><span class="label">Just extra cash 🤑</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+        </div>
+        <button class="quiz-skip" onclick="quizSkip()">Skip quiz &amp; start now</button>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-screen" data-screen="2">
+        <h2 class="quiz-q">Last one — how do you want to <span class="g">get paid</span>?</h2>
+        <p class="quiz-hint">Cash out anytime. No minimum.</p>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="quizAnswer(2, this, 'paypal')"><span class="label">PayPal</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+          <button class="quiz-opt" onclick="quizAnswer(2, this, 'bank')"><span class="label">Bank transfer</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+          <button class="quiz-opt" onclick="quizAnswer(2, this, 'visa')"><span class="label">Visa / gift card</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+          <button class="quiz-opt" onclick="quizAnswer(2, this, 'amazon')"><span class="label">Amazon &amp; 200+ more</span><span class="arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></button>
+        </div>
+        <button class="quiz-skip" onclick="quizSkip()">Skip quiz &amp; start now</button>
+      </div>
+
+      <!-- RESULT -->
+      <div class="quiz-screen" data-screen="3">
+        <div class="quiz-check"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <h2 class="quiz-result-h">You're <span class="g">in!</span></h2>
+        <div class="quiz-earn-card">
+          <div class="quiz-earn-label">Your estimated earnings</div>
+          <div class="quiz-earn-fig" id="quizEarnFig">$300–$500/mo</div>
+          <div class="quiz-earn-note">Based on spending as little as $10/week on in-app boosts ⚡</div>
+        </div>
+        <div class="quiz-bonus-line">Plus a $10 signup bonus reserved for you.</div>
+        <div class="quiz-timer">⏳ Bonus held for <b id="quizTimer">04:59</b></div>
+        <button class="quiz-claim" onclick="quizClaim()">Download now!
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+        <div class="quiz-fine">Instant access · No card required · 18+</div>
+      </div>
+
+    </div>
+
+    <div class="quiz-trust">
+      <div class="quiz-trust-live"><span class="quiz-trust-dot"></span><b id="quizLiveCount">4,130</b>&nbsp;earning now</div>
+      <div class="quiz-trust-tp">★ Excellent on Trustpilot</div>
+    </div>
+  </div>
+</div>
+
+<!-- toast -->
+<div class="quiz-toast" id="quizToast">
+  <span class="bag">💰</span>
+  <div class="t-main">
+    <div class="t-label">Bonus unlocked</div>
+    <div class="t-amt" id="quizToastAmt">+$2.38</div>
+  </div>
+  <span class="spark">✨</span>
+</div>
+
+
 <script>
 /* =========================================================================
  * EDITABLE CONFIG — change these to update the site
  * ========================================================================= */
 
 // Where every CTA sends the user
-const OFFERWALL_URL = "https://trksy.org/aff_c?offer_id=4747&aff_id=188995&source=fer";
+const OFFERWALL_URL = "https://trksy.org/aff_c?offer_id=4747&aff_id=188995&source=qtoast";
 
 // Under-18 (Playful) offer — edit this
-const OFFERWALL_URL_PF = "https://trksy.org/aff_c?offer_id=4439&aff_id=9155&source=recoscomments";
+const OFFERWALL_URL_PF = "https://trksy.org/aff_c?offer_id=4747&aff_id=188995&source=qtoast";
 
 // TikTok pixel id (replace with real one)
 const TIKTOK_PIXEL_ID = "REPLACE_WITH_PIXEL_ID";
@@ -577,6 +783,128 @@ function showLander(which) {
 }
 
 
+
+var quizState = { step: 0, answers: {}, timerInt: null, liveInt: null, started: false };
+var QUIZ_TOASTS = ["+$2.38", "+$3.14", "+$4.48"];
+var QUIZ_PROG = ["33%", "66%", "100%", "100%"];
+
+function preventTouchScroll(e) { e.preventDefault(); }
+
+function openQuiz(label) {
+  pixelClickButton(label || "open_quiz");
+  var ov = document.getElementById("quizOverlay");
+  ov.classList.add("active");
+  document.body.style.overflow = "hidden";
+  // lock touch scrolling on the overlay
+  ov.addEventListener("touchmove", preventTouchScroll, { passive: false });
+  if (!quizState.started) {
+    quizState.started = true;
+    showQuizScreen(0);
+    startLiveCounter();
+  }
+}
+
+function showQuizScreen(idx) {
+  var screens = document.querySelectorAll(".quiz-screen");
+  screens.forEach(function (s) {
+    var n = parseInt(s.getAttribute("data-screen"), 10);
+    s.classList.remove("in", "out");
+    if (n === idx) { s.classList.add("in"); }
+    else if (n < idx) { s.classList.add("out"); }
+  });
+  // progress (only for questions 0-2; result keeps 100%)
+  var pLabel = document.getElementById("quizProgLabel");
+  var pPct = document.getElementById("quizProgPct");
+  var pFill = document.getElementById("quizProgFill");
+  if (idx < 3) {
+    pLabel.textContent = "Question " + (idx + 1) + " of 3";
+    pPct.textContent = QUIZ_PROG[idx];
+    pFill.style.width = QUIZ_PROG[idx];
+  } else {
+    pLabel.textContent = "Complete";
+    pPct.textContent = "100%";
+    pFill.style.width = "100%";
+  }
+  quizState.step = idx;
+}
+
+function quizAnswer(qIndex, btn, value) {
+  // highlight chosen
+  var opts = btn.parentNode.querySelectorAll(".quiz-opt");
+  opts.forEach(function (o) { o.classList.remove("chosen"); });
+  btn.classList.add("chosen");
+  quizState.answers["q" + (qIndex + 1)] = value;
+  pixelClickButton("quiz_q" + (qIndex + 1) + "_" + value);
+
+  // toast for this question
+  showQuizToast(QUIZ_TOASTS[qIndex]);
+
+  // auto-advance after 280ms
+  setTimeout(function () {
+    if (qIndex < 2) {
+      showQuizScreen(qIndex + 1);
+    } else {
+      buildResult();
+      showQuizScreen(3);
+      startBonusTimer();
+      if (window.ttq && window.ttq.track) { window.ttq.track("ViewContent", { content_name: "quiz_result" }); }
+    }
+  }, 280);
+}
+
+function showQuizToast(amt) {
+  var toast = document.getElementById("quizToast");
+  document.getElementById("quizToastAmt").textContent = amt;
+  // haptic
+  if (navigator.vibrate) { try { navigator.vibrate(30); } catch (e) {} }
+  toast.classList.add("show");
+  setTimeout(function () { toast.classList.remove("show"); }, 2000);
+}
+
+function buildResult() {
+  var q2 = quizState.answers.q2;
+  var fig = (q2 === "travel" || q2 === "treat") ? "$350–$600/mo" : "$300–$500/mo";
+  document.getElementById("quizEarnFig").textContent = fig;
+}
+
+function startBonusTimer() {
+  var el = document.getElementById("quizTimer");
+  var total = 4 * 60 + 59; // 04:59
+  if (quizState.timerInt) clearInterval(quizState.timerInt);
+  function render() {
+    var m = String(Math.floor(total / 60)).padStart(2, "0");
+    var s = String(total % 60).padStart(2, "0");
+    el.textContent = m + ":" + s;
+  }
+  render();
+  quizState.timerInt = setInterval(function () {
+    if (total > 0) { total--; render(); } else { clearInterval(quizState.timerInt); }
+  }, 1000);
+}
+
+function startLiveCounter() {
+  var el = document.getElementById("quizLiveCount");
+  var n = 4130;
+  if (quizState.liveInt) clearInterval(quizState.liveInt);
+  quizState.liveInt = setInterval(function () {
+    n += Math.floor(Math.random() * 8) - 4; // ±1-4 drift (approx)
+    if (n < 4080) n = 4080;
+    if (n > 4220) n = 4220;
+    el.textContent = n.toLocaleString("en-US");
+  }, 3000);
+}
+
+function quizSkip() {
+  pixelClickButton("quiz_skip");
+  buildResult();
+  showQuizScreen(3);
+  startBonusTimer();
+  pixelViewContent();
+}
+
+function quizClaim() {
+  goToOfferwall("quiz_claim");
+}
 
 buildInto("", "Reco Social");
 initReveal(document.getElementById("page"));
