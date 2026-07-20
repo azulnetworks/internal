@@ -574,6 +574,7 @@ function pixelClickButton(label) { window.ttq && window.ttq.track && window.ttq.
  * ========================================================================= */
 function goToOfferwall(label) {
   pixelClickButton(label);
+  if (window.ttq && window.ttq.track) { window.ttq.track("AddToCart"); window.ttq.track("CompleteRegistration"); }
   var url = OFFERWALL_URL;
   var qs = window.location.search;
   if (qs) { url += (url.indexOf("?") > -1 ? "&" : "?") + qs.replace(/^\?/, ""); }
@@ -582,6 +583,7 @@ function goToOfferwall(label) {
 
 function goToOfferwallPf(label) {
   pixelClickButton(label);
+  if (window.ttq && window.ttq.track) { window.ttq.track("AddToCart"); window.ttq.track("CompleteRegistration"); }
   var url = OFFERWALL_URL_PF;
   var qs = window.location.search;
   if (qs) { url += (url.indexOf("?") > -1 ? "&" : "?") + qs.replace(/^\?/, ""); }
