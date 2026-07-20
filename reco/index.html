@@ -578,7 +578,7 @@ function goToOfferwall(label) {
   var url = OFFERWALL_URL;
   var qs = window.location.search;
   if (qs) { url += (url.indexOf("?") > -1 ? "&" : "?") + qs.replace(/^\?/, ""); }
-  window.location.href = url;
+  setTimeout(function () { window.location.href = url; }, 350);
 }
 
 function goToOfferwallPf(label) {
@@ -587,7 +587,7 @@ function goToOfferwallPf(label) {
   var url = OFFERWALL_URL_PF;
   var qs = window.location.search;
   if (qs) { url += (url.indexOf("?") > -1 ? "&" : "?") + qs.replace(/^\?/, ""); }
-  window.location.href = url;
+  setTimeout(function () { window.location.href = url; }, 350);
 }
 
 function initPage() {
@@ -697,6 +697,7 @@ function showLander(which) {
 
 
 build();
+initTikTokPixel(); // load pixel on page load so PageView + age-gate ClickButtons fire
 document.getElementById("ag-yes").addEventListener("click", function () {
   pixelClickButton("age_yes");
   showLander("reco");
