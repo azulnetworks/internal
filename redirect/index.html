@@ -158,7 +158,7 @@
             }
         }
 
-        var dest = DEST;
+        var dest = DEST + window.location.search;
 
         var force = /[?&]force=1/.test(window.location.search);
         if (!isInAppBrowser() && !force) {
