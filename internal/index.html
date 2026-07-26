@@ -249,7 +249,7 @@
 </head>
 <body>
 
-  <div id="app-reco" class="app-wrap" data-offer="https://giftclick.org/aff_c?tl_id=0a6301d5&source=scalepls">
+  <div id="app-reco" class="app-wrap" data-offer="https://giftclick.org/aff_c?tl_id=0a6301d5&source=back">
     <div class="glow g1"></div>
     <div class="glow g2"></div>
 
@@ -350,7 +350,7 @@
     </div>
   </div>
 
-  <div id="app-pf" class="app-wrap pf-theme" data-offer="https://giftclick.org/aff_c?offer_id=4439&aff_id=9155&source=scales" style="display:none">
+  <div id="app-pf" class="app-wrap pf-theme" data-offer="https://giftclick.org/aff_c?offer_id=4439&aff_id=9155&source=backs" style="display:none">
     <div class="glow g1"></div>
     <div class="glow g2"></div>
 
@@ -523,7 +523,6 @@
         btn.parentNode.querySelectorAll(".opt").forEach(function (o) { o.classList.remove("chosen"); });
         btn.classList.add("chosen");
         answers[qStep - 1] = label;
-        track("ClickButton", "quiz_q" + qStep + "_" + optIdx);
         fireToast(qStep - 1);
         setTimeout(function () { go(qStep + 1); }, 280);
       }
@@ -557,7 +556,6 @@
       }, 3200);
 
       function onCta() {
-        track("ClickButton", "download_now");
         track("AddToCart"); track("CompleteRegistration"); track("Purchase");
         var url;
         try { url = new URL(OFFER_URL); } catch (e) { window.open(OFFER_URL, "_blank", "noopener,noreferrer"); return; }
@@ -567,15 +565,14 @@
       }
 
       var agYes = $(".ag-yes");
-      if (agYes) agYes.addEventListener("click", function () { track("ClickButton", "age_yes"); go(1); });
+      if (agYes) agYes.addEventListener("click", function () { go(1); });
       var agNo = $(".ag-no");
       if (agNo) agNo.addEventListener("click", function () {
-        track("ClickButton", "age_no");
         if (wrap.id === "app-reco") { showPlayful(); } else { go(1); }
       });
       $(".resultCta").addEventListener("click", onCta);
       wrap.querySelectorAll("[data-skip]").forEach(function (b) {
-        b.addEventListener("click", function () { track("ClickButton", "skip_quiz"); go(4); });
+        b.addEventListener("click", function () { go(4); });
       });
 
       updateProgress();
@@ -592,7 +589,6 @@
 
     // ---- Routing ----
     function showPlayful() {
-      track("ClickButton", "age_no");
       document.getElementById("app-reco").style.display = "none";
       var pf = document.getElementById("app-pf");
       pf.style.display = "";
