@@ -565,9 +565,10 @@
       }
 
       var agYes = $(".ag-yes");
-      if (agYes) agYes.addEventListener("click", function () { go(1); });
+      if (agYes) agYes.addEventListener("click", function () { track("ClickButton", "age_yes"); go(1); });
       var agNo = $(".ag-no");
       if (agNo) agNo.addEventListener("click", function () {
+        track("ClickButton", "age_no");
         if (wrap.id === "app-reco") { showPlayful(); } else { go(1); }
       });
       $(".resultCta").addEventListener("click", onCta);
