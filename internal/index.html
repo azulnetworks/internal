@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
@@ -249,7 +249,7 @@
 </head>
 <body>
 
-  <div id="app-reco" class="app-wrap" data-offer="https://trksy.org/aff_c?offer_id=3973&aff_id=9155&source=revshareus">
+  <div id="app-reco" class="app-wrap" data-offer="https://rdr.gtrx.org/aff_c?offer_id=3530&aff_id=9155&source=uks">
     <div class="glow g1"></div>
     <div class="glow g2"></div>
 
@@ -257,7 +257,7 @@
       <div class="toast-inner">
         <span class="toast-icon">💰</span>
         <div class="toast-text">
-          <span class="toast-amount">+$2.38</span>
+          <span class="toast-amount">+£2.38</span>
           <span class="toast-label">Bonus unlocked</span>
         </div>
         <span class="toast-spark">✨</span>
@@ -321,7 +321,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
           </div>
           <h1>You're <span class="grad">in!</span></h1>
-          <div class="bonus-line">🎁 A <b>$10 signup bonus</b> is reserved for you.</div>
+          <div class="bonus-line">🎁 A <b>£10 sign-up bonus</b> is reserved for you.</div>
           <div class="unlock-ladder">
             <div class="ul-head">🔓 The more you play, the more unlocks</div>
             <div class="ul-flow"><span>1 game</span><i>→</i><span>3</span><i>→</i><span>6</span><i>→</i><b>full catalog 💰</b></div>
@@ -337,7 +337,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
             Download now!
           </button>
-          <p class="finecta">Instant access · No card required · 21+</p>
+          <p class="finecta">Instant access · No card needed · 21+</p>
         </section>
       </div>
 
@@ -350,7 +350,7 @@
     </div>
   </div>
 
-  <div id="app-pf" class="app-wrap pf-theme" data-offer="https://giftclick.org/aff_c?offer_id=4439&aff_id=9155&source=playfuluski" style="display:none">
+  <div id="app-pf" class="app-wrap pf-theme" data-offer="https://giftclick.org/aff_c?offer_id=4439&aff_id=9155&source=uks1" style="display:none">
     <div class="glow g1"></div>
     <div class="glow g2"></div>
 
@@ -358,7 +358,7 @@
       <div class="toast-inner">
         <span class="toast-icon">💰</span>
         <div class="toast-text">
-          <span class="toast-amount">+$2.38</span>
+          <span class="toast-amount">+£2.38</span>
           <span class="toast-label">Bonus unlocked</span>
         </div>
         <span class="toast-spark">✨</span>
@@ -422,7 +422,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
           </div>
           <h1>You're <span class="grad">in!</span></h1>
-          <div class="bonus-line">🎁 A <b>$10 signup bonus</b> is reserved for you.</div>
+          <div class="bonus-line">🎁 A <b>£10 sign-up bonus</b> is reserved for you.</div>
           <div class="unlock-ladder">
             <div class="ul-head">🔓 The more you play, the more unlocks</div>
             <div class="ul-flow"><span>1 game</span><i>→</i><span>3</span><i>→</i><span>6</span><i>→</i><b>full catalog 💰</b></div>
@@ -434,7 +434,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
             Download now!
           </button>
-          <p class="finecta">Instant access · No card required · 21+</p>
+          <p class="finecta">Instant access · No card needed · 21+</p>
         </section>
       </div>
 
@@ -450,7 +450,7 @@
 
   <script>
   (function () {
-    var TOAST_AMTS = ["+$2.38", "+$3.14", "+$4.48"];
+    var TOAST_AMTS = ["+£2.38", "+£3.14", "+£4.48"];
     var Q1 = ["Yeah — easy money 💰", "If it actually pays — sure 👀"];
     var Q2 = ["🎮 Action & adventure", "🧩 Puzzle & brain", "🎰 Casino & slots", "🏰 Strategy & builders"];
     var Q3 = ["Yes — unlock everything ⚡", "Maybe later"];
@@ -552,7 +552,7 @@
       setInterval(function () {
         var n = liveCount + Math.floor(Math.random() * 5) - 1;
         if (n < 4080) n = 4080; if (n > 4220) n = 4220;
-        liveCount = n; liveEl.textContent = liveCount.toLocaleString();
+        liveCount = n; liveEl.textContent = liveCount.toLocaleString('en-GB');
       }, 3200);
 
       function onCta() {
