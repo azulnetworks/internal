@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
-  <title>Playful — Desbloquea tus recompensas en efectivo</title>
+  <title>FreeCash — Desbloquea tus recompensas en efectivo</title>
   <link rel="icon" href="data:,">
-  <meta name="description" content="Responde 3 preguntas rápidas y desbloquea recompensas reales en efectivo por jugar a juegos en tu móvil con Playful." />
+  <meta name="description" content="Responde 3 preguntas rápidas y desbloquea recompensas reales en efectivo por jugar a juegos en tu móvil con FreeCash." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#faf8ff" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="preload" as="image" href="assets/playful-logo.webp" />
+  <link rel="preload" as="image" href="assets/freecash-logo.webp" />
   <script>
   !function (w, d, t) {
     w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
@@ -249,7 +249,7 @@
 </head>
 <body>
 
-  <div id="app-reco" class="app-wrap pf-theme" data-offer="https://trksy.org/aff_c?offer_id=5022&aff_id=9155&source=ss">
+  <div id="app-reco" class="app-wrap" data-offer="https://linkthem.net/aff_c?offer_id=3534&aff_id=9155&source=es">
     <div class="glow g1"></div>
     <div class="glow g2"></div>
 
@@ -267,8 +267,8 @@
     <div class="app">
       <div class="top">
         <div class="brand">
-          <img src="assets/playful-logo.webp" alt="Playful" />
-          <b>Playful</b>
+          <img src="assets/freecash-logo.webp" alt="FreeCash" />
+          <b>FreeCash</b>
         </div>
         <div class="bar"><i></i></div>
         <div class="steplabel hidden">
@@ -329,6 +329,10 @@
           </div>
           <div class="cpe-tip">⚠️ Cuando la app te pregunte <b>«¿Has jugado antes?»</b>, pulsa siempre <b>NO</b> — de lo contrario tu instalación no contará.</div>
           <div class="timer">⏳ Bono reservado durante <b class="hold">04:59</b></div>
+          <div class="age-notice">
+            <span class="an-ic">🔞</span>
+            <span class="an-tx">Introduce <b>21+</b> como edad al registrarte — se rechazan los pagos de cuentas menores de 21.</span>
+          </div>
           <button class="cta resultCta">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
             ¡Descargar ahora!
@@ -346,7 +350,7 @@
     </div>
   </div>
 
-  <div id="app-pf" class="app-wrap pf-theme" data-offer="https://giftclick.org/aff_c?offer_id=4439&aff_id=9155&source=backs" style="display:none">
+  <div id="app-pf" class="app-wrap pf-theme" data-offer="https://linkthem.net/aff_c?offer_id=5022&aff_id=9155&source=plsp" style="display:none">
     <div class="glow g1"></div>
     <div class="glow g2"></div>
 
@@ -564,7 +568,7 @@
       if (agYes) agYes.addEventListener("click", function () { go(1); });
       var agNo = $(".ag-no");
       if (agNo) agNo.addEventListener("click", function () {
-        go(1);
+        if (wrap.id === "app-reco") { showPlayful(); } else { go(1); }
       });
       $(".resultCta").addEventListener("click", onCta);
       wrap.querySelectorAll("[data-skip]").forEach(function (b) {
