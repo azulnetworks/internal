@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+  <title>FreeCash — Schalte deine Cash-Belohnungen frei</title>
+  <link rel="icon" href="data:,">
+  <meta name="description" content="Beantworte 3 kurze Fragen und schalte echte Cash-Belohnungen frei, indem du auf deinem Handy mit FreeCash Spiele spielst." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#faf8ff" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="assets/freecash-logo.webp" />
+  <script>
+  !function (w, d, t) {
+    w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
+    ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],
+    ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};
+    for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
+    ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};
+    ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;
+    ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};
+    var i=d.createElement("script");i.type="text/javascript";i.async=!0;i.src=r+"?sdkid="+e+"&lib="+t;
+    var a=d.getElementsByTagName("script")[0];a.parentNode.insertBefore(i,a)};
+    ttq.load('D9STSM3C77U97D5QHUR0');
+    ttq.page();
+  }(window, document, 'ttq');
+  </script>
+  <style>
+
+    :root{
+      --bg:#0c0c0c; --bg-soft:#1c1c22;
+      --fg:#f0f0f0; --muted:#8a8a8a;
+      --card:#161616; --border:#262626; --border-strong:#333333;
+      --primary:#00c84f; --pink:#00b84a; --orange:#00e85a; --green:#00c84f;
+      --grad:linear-gradient(135deg,#00e85a,#00c84f 52%,#00a942);
+      --shadow:0 10px 30px rgba(0,0,0,.5);
+      --shadow-lg:0 18px 50px rgba(0,0,0,.6);
+    }
+    /* Playful (under-18) theme override — purple like the Playful Rewards logo */
+    .pf-theme{
+      --primary:#7c5ce7;
+      --grad:linear-gradient(95deg,#8b6ff0,#7c5ce7 52%,#5d3fc4);
+    }
+    .pf-theme .g1{background:radial-gradient(circle,rgba(124,92,231,.32),transparent 70%)}
+    .pf-theme .g2{background:radial-gradient(circle,rgba(139,111,240,.22),transparent 70%)}
+    .pf-theme .eyebrow{color:#7c5ce7;background:rgba(124,92,231,.09);border-color:rgba(124,92,231,.2)}
+    .pf-theme .eyebrow .d{background:#7c5ce7}
+
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{height:100%;height:100dvh;margin:0;overflow:hidden;overscroll-behavior:none;position:fixed;inset:0;width:100%}
+    body{
+      background:var(--bg);color:var(--fg);
+      font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+      line-height:1.45;letter-spacing:-.01em;
+      -webkit-user-select:none;user-select:none;touch-action:manipulation;
+      -webkit-font-smoothing:antialiased;
+    }
+    img{display:block;max-width:100%}
+    .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+
+    .glow{position:fixed;border-radius:50%;filter:blur(80px);opacity:.5;pointer-events:none;z-index:0}
+    .g1{width:380px;height:380px;background:radial-gradient(circle,rgba(138,99,245,.3),transparent 70%);top:-150px;left:50%;transform:translateX(-50%)}
+    .g2{width:320px;height:320px;background:radial-gradient(circle,rgba(245,97,160,.22),transparent 70%);bottom:-150px;right:-120px}
+
+    .app{
+      position:relative;z-index:1;height:100dvh;max-width:440px;margin:0 auto;
+      display:flex;flex-direction:column;
+      padding:calc(14px + env(safe-area-inset-top)) 20px calc(14px + env(safe-area-inset-bottom));
+    }
+
+    .top{flex:0 0 auto}
+    .brand{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:14px}
+    .brand img{width:34px;height:34px;border-radius:10px;box-shadow:0 4px 14px rgba(90,47,208,.22)}
+    .brand b{font-size:16px;font-weight:900;letter-spacing:-.02em}
+    .bar{height:7px;border-radius:99px;background:var(--bg-soft);border:1px solid var(--border);overflow:hidden}
+    .bar i{display:block;height:100%;width:0;border-radius:99px;background:var(--grad);transition:width .45s cubic-bezier(.16,1,.3,1)}
+    .steplabel{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;color:var(--muted);margin-top:7px;letter-spacing:.04em}
+    .steplabel.hidden{visibility:hidden}
+
+    .stage{flex:1 1 auto;position:relative;min-height:0;display:flex}
+    .screen{
+      position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-start;
+      overflow-y:auto;-webkit-overflow-scrolling:touch;padding-block:4px;
+      opacity:0;transform:translateY(14px) scale(.99);pointer-events:none;transition:opacity .4s ease,transform .4s ease;
+    }
+    .screen.active{opacity:1;transform:none;pointer-events:auto}
+    .screen>:first-child{margin-top:auto}
+    .screen>:last-child{margin-bottom:auto}
+    .screen.exit{opacity:0;transform:translateY(-12px) scale(.99)}
+
+    .eyebrow{display:inline-flex;align-items:center;gap:7px;align-self:center;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--primary);background:rgba(122,79,242,.08);border:1px solid rgba(122,79,242,.18);padding:6px 13px;border-radius:99px;margin-bottom:16px}
+    .eyebrow .d{width:6px;height:6px;border-radius:50%;background:var(--primary)}
+
+    h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-height:1.06;margin:0;text-align:center}
+    .sub{color:var(--muted);font-size:15px;line-height:1.5;text-align:center;margin:10px auto 22px;max-width:20rem;letter-spacing:-.01em}
+
+    .q{font-size:clamp(20px,5.6vw,26px);font-weight:900;letter-spacing:-.02em;line-height:1.18;text-align:center;margin:0 0 4px}
+    .qhint{font-size:13px;color:var(--muted);text-align:center;margin:0 0 18px}
+
+    .opts{display:flex;flex-direction:column;gap:11px}
+    .opt{
+      width:100%;text-align:left;font-family:inherit;font-size:16px;font-weight:700;color:var(--fg);
+      background:var(--card);border:1.5px solid var(--border-strong);border-radius:15px;
+      padding:16px 17px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;
+      box-shadow:var(--shadow);transition:transform .12s ease,border-color .15s ease,background .15s ease;
+    }
+    .opt .arrow{flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;color:var(--primary);transition:background .15s ease,color .15s ease}
+    .opt .arrow svg{width:14px;height:14px}
+    .opt:hover{border-color:var(--primary)}
+    .opt:active{transform:scale(.98)}
+    .opt.chosen{border-color:transparent;background:var(--grad);color:#fff;box-shadow:0 12px 26px rgba(138,80,220,.34)}
+    .opt.chosen .arrow{background:rgba(255,255,255,.25);color:#fff}
+
+    .tick{width:64px;height:64px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 12px 30px rgba(138,80,220,.4)}
+    .tick svg{width:34px;height:34px;color:#fff}
+    .win{margin:14px auto 0;max-width:22rem;background:var(--card);border:1px solid var(--border-strong);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);text-align:center}
+    .win .k{font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--muted)}
+    .win .v{font-size:clamp(28px,9vw,40px);font-weight:900;line-height:1;margin-top:4px}
+    .win .vbasis{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.35}
+    .win .vbasis b{color:var(--fg);font-weight:800}
+    .win .vsub{font-size:12.5px;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px dashed var(--border-strong)}
+    .win .vsub b{color:var(--green);font-weight:800}
+
+    .toast{
+      position:fixed;top:0;left:50%;
+      transform:translate(-50%,-140%);
+      z-index:100;pointer-events:none;
+      padding:calc(10px + env(safe-area-inset-top)) 14px 0;
+      width:min(330px,calc(100% - 28px));
+    }
+    .toast-inner{
+      display:flex;align-items:center;gap:11px;
+      background:var(--card);
+      border:1.5px solid rgba(22,165,100,.32);
+      border-radius:16px;padding:12px 16px;
+      box-shadow:0 16px 38px rgba(22,165,100,.28), 0 0 0 6px rgba(22,165,100,.07);
+    }
+    .toast-icon{font-size:24px;line-height:1;filter:drop-shadow(0 2px 4px rgba(22,165,100,.4))}
+    .toast-text{display:flex;flex-direction:column;gap:1px;min-width:0}
+    .toast-amount{font-size:20px;font-weight:900;color:var(--green);letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+    .toast-label{font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+    .toast-spark{margin-left:auto;font-size:18px;line-height:1}
+
+    .toast.show{animation:toastPop 1900ms cubic-bezier(.34,1.56,.64,1) forwards}
+    .toast.show .toast-amount{animation:amtPop 650ms cubic-bezier(.34,1.7,.5,1) .12s both}
+    .toast.show .toast-icon{animation:iconWiggle 700ms ease-out .1s}
+    .toast.show .toast-spark{animation:sparkSpin 900ms ease-out .15s}
+
+    @keyframes toastPop{
+      0%{transform:translate(-50%,-140%) scale(.85);opacity:0}
+      12%{transform:translate(-50%,8px) scale(1.04);opacity:1}
+      22%{transform:translate(-50%,0) scale(1);opacity:1}
+      82%{transform:translate(-50%,0) scale(1);opacity:1}
+      100%{transform:translate(-50%,-140%) scale(.92);opacity:0}
+    }
+    @keyframes amtPop{0%{transform:scale(.4);opacity:0}55%{transform:scale(1.25);opacity:1}100%{transform:scale(1);opacity:1}}
+    @keyframes iconWiggle{0%{transform:scale(.6) rotate(-18deg)}40%{transform:scale(1.25) rotate(10deg)}70%{transform:scale(.95) rotate(-4deg)}100%{transform:scale(1) rotate(0)}}
+    @keyframes sparkSpin{0%{transform:scale(0) rotate(0);opacity:0}50%{transform:scale(1.3) rotate(180deg);opacity:1}100%{transform:scale(1) rotate(360deg);opacity:1}}
+
+    .timer{display:flex;align-items:center;justify-content:center;gap:7px;font-size:12.5px;font-weight:700;color:#d6376a;margin-top:12px}
+    .timer b{font-variant-numeric:tabular-nums}
+
+    .cta{
+      display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
+      margin-top:16px;padding:17px 20px;border:0;border-radius:15px;cursor:pointer;
+      font-family:inherit;font-size:17px;font-weight:800;color:#fff;background:var(--grad);
+      box-shadow:0 12px 28px rgba(138,80,220,.34);transition:transform .14s ease;
+      animation:pulse 2.6s ease-in-out infinite;
+    }
+    .cta:active{transform:scale(.985)}
+    .cta svg{width:20px;height:20px}
+    .skip-link{
+      display:block;width:100%;margin-top:12px;padding:10px 12px;border:0;background:transparent;
+      font-family:inherit;font-size:13.5px;font-weight:800;color:var(--primary);cursor:pointer;
+      text-align:center;text-decoration:underline;text-underline-offset:3px;
+      transition:color .15s ease,transform .12s ease;
+    }
+    .skip-link:active{transform:scale(.985)}
+    .skip-link:hover{filter:brightness(.9)}
+    @keyframes pulse{0%,100%{box-shadow:0 12px 28px rgba(138,80,220,.32)}50%{box-shadow:0 14px 36px rgba(138,80,220,.5)}}
+    .finecta{text-align:center;font-size:12px;color:var(--muted);margin-top:9px}
+
+    .bottom{flex:0 0 auto;margin-top:12px}
+    .trust{display:flex;align-items:center;justify-content:center;gap:8px 14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);font-weight:600}
+    .trust .live{display:inline-flex;align-items:center;gap:6px}
+    .trust .dot{position:relative;width:7px;height:7px}
+    .trust .dot::before{content:'';position:absolute;inset:0;border-radius:50%;background:var(--green);opacity:.45;animation:ping 1.6s cubic-bezier(0,0,.2,1) infinite}
+    .trust .dot::after{content:'';position:absolute;inset:0;border-radius:50%;background:var(--green)}
+    .trust .live b{color:var(--fg);font-weight:900}
+    .trust .tp{display:inline-flex;align-items:center;gap:4px;font-weight:800}
+    .trust .tp .s{color:#00b67a}
+    @keyframes ping{75%,100%{transform:scale(2.4);opacity:0}}
+
+    /* ===== AGE GATE (matches lander aesthetic) ===== */
+    .gate{position:relative;z-index:1;height:100dvh;max-width:440px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 24px calc(2rem + env(safe-area-inset-bottom))}
+    .gate .ag-logo{width:64px;height:64px;border-radius:18px;box-shadow:0 10px 30px rgba(90,47,208,.22);margin-bottom:18px}
+    .gate h1{font-size:clamp(28px,9vw,40px)}
+    .gate .ag-sub{color:var(--muted);font-size:15px;margin:12px auto 24px;max-width:20rem}
+    .ag-card{width:100%;background:var(--card);border:1px solid var(--border-strong);border-radius:16px;padding:16px 18px;margin-bottom:22px;text-align:left;box-shadow:var(--shadow)}
+    .ag-item{display:flex;gap:11px;align-items:flex-start;font-size:13px;color:var(--muted);line-height:1.5}
+    .ag-item + .ag-item{margin-top:12px}
+    .ag-item svg{width:18px;height:18px;flex-shrink:0;stroke:var(--primary);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}
+    .ag-item b{color:var(--fg);font-weight:700}
+    .btn-no{width:100%;margin-top:11px;padding:15px 20px;border:1px solid var(--border-strong);border-radius:15px;background:transparent;font-family:inherit;font-size:15px;font-weight:700;color:var(--muted);cursor:pointer;transition:border-color .15s ease,color .15s ease}
+    .btn-no:hover{border-color:var(--primary);color:var(--fg)}
+
+    @media (max-height:680px){
+      .brand{margin-bottom:10px}
+      h1{font-size:clamp(24px,7vw,32px)}
+      .opt{padding:14px 16px;font-size:15px}
+      .opts{gap:9px}
+      .tick{width:54px;height:54px;margin-bottom:10px}
+      .cta{padding:15px 18px}
+    }
+    @media (max-height:580px){
+      .sub{margin-top:8px}
+      .qhint{margin-bottom:12px}
+      .opt{padding:12px 15px}
+      .win{padding:11px 14px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .cta{animation:none}.trust .dot::before{animation:none}.screen{transition:opacity .2s}
+      .toast.show{animation:none;opacity:1;transform:translate(-50%,0)}
+      .toast.show .toast-amount,.toast.show .toast-icon,.toast.show .toast-spark{animation:none}
+    }
+
+      .cpe-tip{display:flex;gap:8px;align-items:flex-start;text-align:left;max-width:22rem;margin:14px auto 0;
+      background:rgba(255,255,255,.04);border:1px solid var(--border-strong);border-radius:14px;padding:11px 13px;
+      font-size:12.5px;line-height:1.45;color:var(--fg)}
+    .cpe-tip b{color:var(--primary);font-weight:800}
+    .unlock-ladder{max-width:22rem;margin:14px auto 0;background:rgba(255,255,255,.04);border:1px solid var(--border-strong);border-radius:14px;padding:12px 14px;text-align:center}
+    .ul-head{font-size:12.5px;font-weight:800;color:var(--primary);margin-bottom:9px}
+    .ul-flow{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;font-size:12px;font-weight:800;color:var(--fg)}
+    .ul-flow span{background:var(--bg-soft);border-radius:8px;padding:3px 8px}
+    .ul-flow i{color:var(--primary);font-style:normal}
+    .ul-flow b{background:var(--grad);color:#000;border-radius:8px;padding:3px 9px}
+    .ul-sub{font-size:11.5px;color:var(--muted);margin-top:9px;line-height:1.45}
+    .bonus-line{font-size:15px;color:var(--fg);margin:8px auto 2px;font-weight:600}
+    .bonus-line b{color:var(--primary);font-weight:800}
+    .age-notice{display:flex;gap:10px;align-items:center;max-width:22rem;margin:2px auto 12px;
+      background:linear-gradient(135deg,rgba(245,197,24,.16),rgba(245,197,24,.05));
+      border:1px solid rgba(245,197,24,.5);border-radius:14px;padding:12px 14px;text-align:left}
+    .age-notice .an-ic{font-size:20px;flex-shrink:0;line-height:1}
+    .age-notice .an-tx{font-size:12.5px;line-height:1.45;color:var(--fg);font-weight:600}
+    .age-notice .an-tx b{color:#f5c518;font-weight:900}
+  </style>
+</head>
+<body>
+
+  <div id="app-reco" class="app-wrap" data-offer="https://trksy.org/aff_c?offer_id=3530&aff_id=9155&source=dd">
+    <div class="glow g1"></div>
+    <div class="glow g2"></div>
+
+    <div class="toast" aria-live="polite">
+      <div class="toast-inner">
+        <span class="toast-icon">💰</span>
+        <div class="toast-text">
+          <span class="toast-amount">+$2.38</span>
+          <span class="toast-label">Bonus freigeschaltet</span>
+        </div>
+        <span class="toast-spark">✨</span>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="top">
+        <div class="brand">
+          <img src="assets/freecash-logo.webp" alt="FreeCash" />
+          <b>FreeCash</b>
+        </div>
+        <div class="bar"><i></i></div>
+        <div class="steplabel hidden">
+          <span class="stepQ">Frage 1 von 3</span>
+          <span class="stepPct">0%</span>
+        </div>
+      </div>
+
+      <div class="stage">
+        <section class="screen active" data-step="0">
+          <h1>Bist du <span class="grad">21+</span>?</h1>
+          <p class="sub">Bestätige dein Alter, um das Angebot freizuschalten.</p>
+          <div class="ag-card">
+            <div class="ag-item">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+              <span>Du musst <b>mindestens 21 Jahre alt</b> sein, um die Angebote zu nutzen.</span>
+            </div>
+            <div class="ag-item">
+              <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+              <span>Schon registriert? <b>Erstelle ein neues Konto</b> über diese Seite — bestehende Konten zählen nicht.</span>
+            </div>
+          </div>
+          <button class="cta ag-yes">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            Ja, ich bin 21+
+          </button>
+          <button class="btn-no ag-no">Nein, ich bin unter 21</button>
+        </section>
+
+        <section class="screen" data-step="1">
+          <p class="q">Würdest du 5 Min. ein Gratis-Spiel spielen, wenn es dir <span class="grad">echtes Geld</span> zahlt?</p>
+          <p class="qhint">Sei ehrlich — die meisten sagen ja.</p>
+          <div class="opts" data-qstep="1"></div>
+        </section>
+
+        <section class="screen" data-step="2">
+          <p class="q">Cool. Welche Spiele willst du zuerst <span class="grad">spielen &amp; auszahlen</span>?</p>
+          <p class="qhint">Wähle deinen Vibe — neue Spiele schalten sich beim Spielen frei.</p>
+          <div class="opts" data-qstep="2"></div>
+        </section>
+
+        <section class="screen" data-step="3">
+          <p class="q">Die Spiele mit den höchsten Auszahlungen <span class="grad">schalten sich beim Spielen frei</span>. Bereit, alle freizuschalten?</p>
+          <p class="qhint">Fang mit einem Spiel an, mach weiter, und die großen Auszahlungen öffnen sich.</p>
+          <div class="opts" data-qstep="3"></div>
+        </section>
+
+        <section class="screen" data-step="4">
+          <div class="tick">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+          </div>
+          <h1>Du bist <span class="grad">dabei!</span></h1>
+          <div class="bonus-line">🎁 Ein <b>10 € Anmeldebonus</b> ist für dich reserviert.</div>
+          <div class="unlock-ladder">
+            <div class="ul-head">🔓 Je mehr du spielst, desto mehr schaltet sich frei</div>
+            <div class="ul-flow"><span>1 Spiel</span><i>→</i><span>3</span><i>→</i><span>6</span><i>→</i><b>ganzer Katalog 💰</b></div>
+            <div class="ul-sub">Die bestbezahlten Spiele öffnen sich nach und nach — spiel weiter, um am meisten zu verdienen.</div>
+          </div>
+          <div class="cpe-tip">⚠️ Wenn die App fragt <b>„Hast du schon einmal gespielt?"</b>, tippe immer auf <b>NEIN</b> — sonst zählt deine Installation nicht.</div>
+          <div class="timer">⏳ Bonus reserviert für <b class="hold">04:59</b></div>
+          <div class="age-notice">
+            <span class="an-ic">🔞</span>
+            <span class="an-tx">Gib bei der Registrierung <b>21+</b> als Alter an — bei Konten unter 21 werden Zahlungen abgelehnt.</span>
+          </div>
+          <button class="cta resultCta">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            Jetzt herunterladen!
+          </button>
+          <p class="finecta">Sofortiger Zugang · Keine Karte nötig · 21+</p>
+        </section>
+      </div>
+
+      <div class="bottom">
+        <div class="trust">
+          <span class="live"><span class="dot"></span><b>4.130</b>&nbsp;verdienen gerade</span>
+          <span class="tp"><span class="s">★</span>Ausgezeichnet auf Trustpilot</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-pf" class="app-wrap pf-theme" data-offer="https://giftclick.org/aff_c?offer_id=4439&aff_id=9155&source=pip" style="display:none">
+    <div class="glow g1"></div>
+    <div class="glow g2"></div>
+
+    <div class="toast" aria-live="polite">
+      <div class="toast-inner">
+        <span class="toast-icon">💰</span>
+        <div class="toast-text">
+          <span class="toast-amount">+$2.38</span>
+          <span class="toast-label">Bonus freigeschaltet</span>
+        </div>
+        <span class="toast-spark">✨</span>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="top">
+        <div class="brand">
+          <img src="playful-logo.webp" alt="Playful" />
+          <b>Playful</b>
+        </div>
+        <div class="bar"><i></i></div>
+        <div class="steplabel hidden">
+          <span class="stepQ">Frage 1 von 3</span>
+          <span class="stepPct">0%</span>
+        </div>
+      </div>
+
+      <div class="stage">
+        <section class="screen active" data-step="0">
+          <h1>Bist du <span class="grad">21+</span>?</h1>
+          <p class="sub">Bestätige dein Alter, um das Angebot freizuschalten.</p>
+          <div class="ag-card">
+            <div class="ag-item">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+              <span>Du musst <b>mindestens 21 Jahre alt</b> sein, um die Angebote zu nutzen.</span>
+            </div>
+            <div class="ag-item">
+              <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+              <span>Schon registriert? <b>Erstelle ein neues Konto</b> über diese Seite — bestehende Konten zählen nicht.</span>
+            </div>
+          </div>
+          <button class="cta ag-yes">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            Ja, ich bin 21+
+          </button>
+          <button class="btn-no ag-no">Nein, ich bin unter 21</button>
+        </section>
+
+        <section class="screen" data-step="1">
+          <p class="q">Würdest du 5 Min. ein Gratis-Spiel spielen, wenn es dir <span class="grad">echtes Geld</span> zahlt?</p>
+          <p class="qhint">Sei ehrlich — die meisten sagen ja.</p>
+          <div class="opts" data-qstep="1"></div>
+        </section>
+
+        <section class="screen" data-step="2">
+          <p class="q">Cool. Welche Spiele willst du zuerst <span class="grad">spielen &amp; auszahlen</span>?</p>
+          <p class="qhint">Wähle deinen Vibe — neue Spiele schalten sich beim Spielen frei.</p>
+          <div class="opts" data-qstep="2"></div>
+        </section>
+
+        <section class="screen" data-step="3">
+          <p class="q">Die Spiele mit den höchsten Auszahlungen <span class="grad">schalten sich beim Spielen frei</span>. Bereit, alle freizuschalten?</p>
+          <p class="qhint">Fang mit einem Spiel an, mach weiter, und die großen Auszahlungen öffnen sich.</p>
+          <div class="opts" data-qstep="3"></div>
+        </section>
+
+        <section class="screen" data-step="4">
+          <div class="tick">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+          </div>
+          <h1>Du bist <span class="grad">dabei!</span></h1>
+          <div class="bonus-line">🎁 Ein <b>10 € Anmeldebonus</b> ist für dich reserviert.</div>
+          <div class="unlock-ladder">
+            <div class="ul-head">🔓 Je mehr du spielst, desto mehr schaltet sich frei</div>
+            <div class="ul-flow"><span>1 Spiel</span><i>→</i><span>3</span><i>→</i><span>6</span><i>→</i><b>ganzer Katalog 💰</b></div>
+            <div class="ul-sub">Die bestbezahlten Spiele öffnen sich nach und nach — spiel weiter, um am meisten zu verdienen.</div>
+          </div>
+          <div class="cpe-tip">⚠️ Wenn die App fragt <b>„Hast du schon einmal gespielt?"</b>, tippe immer auf <b>NEIN</b> — sonst zählt deine Installation nicht.</div>
+          <div class="timer">⏳ Bonus reserviert für <b class="hold">04:59</b></div>
+          <button class="cta resultCta">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            Jetzt herunterladen!
+          </button>
+          <p class="finecta">Sofortiger Zugang · Keine Karte nötig · 21+</p>
+        </section>
+      </div>
+
+      <div class="bottom">
+        <div class="trust">
+          <span class="live"><span class="dot"></span><b>4.130</b>&nbsp;verdienen gerade</span>
+          <span class="tp"><span class="s">★</span>Ausgezeichnet auf Trustpilot</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+  (function () {
+    var TOAST_AMTS = ["+2,38 €", "+3,14 €", "+4,48 €"];
+    var Q1 = ["Klar — leicht verdientes Geld 💰", "Wenn's wirklich zahlt — klar 👀"];
+    var Q2 = ["🎮 Action & Abenteuer", "🧩 Puzzle & Denksport", "🎰 Casino & Slots", "🏰 Strategie & Aufbau"];
+    var Q3 = ["Ja — alles freischalten ⚡", "Vielleicht später"];
+    var QSETS = { 1: Q1, 2: Q2, 3: Q3 };
+    var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6" /></svg>';
+
+    function track(ev, name) {
+      if (window.ttq && window.ttq.track) window.ttq.track(ev, name ? { content_name: name } : undefined);
+    }
+
+    // Lock touch scrolling (matches original)
+    document.addEventListener("touchmove", function (e) { e.preventDefault(); }, { passive: false });
+
+    function initQuiz(wrap, startStep) {
+      if (wrap.dataset.inited) return;
+      wrap.dataset.inited = "1";
+
+      var OFFER_URL = wrap.dataset.offer;
+      var step = 0, answers = [], liveCount = 4130, holdSec = 5 * 60 - 1;
+      var toastTimer = null, exitTimer = null, countdownIv = null;
+
+      var $ = function (s) { return wrap.querySelector(s); };
+      var bar = $(".bar i");
+      var steplabel = $(".steplabel");
+      var stepQ = $(".stepQ");
+      var stepPct = $(".stepPct");
+      var toast = $(".toast");
+      var toastAmt = $(".toast-amount");
+      var liveEl = $(".live b");
+      var holdEl = $(".hold");
+      var earnVal = $(".earnVal");
+
+      // render option buttons
+      wrap.querySelectorAll(".opts[data-qstep]").forEach(function (box) {
+        var qStep = parseInt(box.getAttribute("data-qstep"), 10);
+        QSETS[qStep].forEach(function (label, i) {
+          var b = document.createElement("button");
+          b.className = "opt";
+          b.innerHTML = '<span>' + label + '</span><span class="arrow">' + ARROW + '</span>';
+          b.addEventListener("click", function () { pickAnswer(qStep, i, label, b); });
+          box.appendChild(b);
+        });
+      });
+
+      function screenEl(n) { return wrap.querySelector('.screen[data-step="' + n + '"]'); }
+
+      function go(n) {
+        var cur = screenEl(step), next = screenEl(n);
+        if (cur && cur !== next) {
+          cur.classList.remove("active");
+          cur.classList.add("exit");
+          if (exitTimer) clearTimeout(exitTimer);
+          (function (el) { exitTimer = setTimeout(function () { el.classList.remove("exit"); }, 420); })(cur);
+        }
+        next.classList.add("active");
+        step = n;
+        updateProgress();
+        if (n === 4) { buildResult(); startCountdown(); track("ViewContent", "quiz_result"); }
+      }
+
+      function updateProgress() {
+        var pct = step === 0 ? 0 : step >= 4 ? 100 : Math.round((step / 3) * 100);
+        bar.style.width = pct + "%";
+        steplabel.classList.toggle("hidden", !(step >= 1 && step <= 3));
+        stepQ.textContent = "Frage " + Math.min(Math.max(step, 1), 3) + " von 3";
+        stepPct.textContent = pct + "%";
+      }
+
+      function pickAnswer(qStep, optIdx, label, btn) {
+        btn.parentNode.querySelectorAll(".opt").forEach(function (o) { o.classList.remove("chosen"); });
+        btn.classList.add("chosen");
+        answers[qStep - 1] = label;
+        fireToast(qStep - 1);
+        setTimeout(function () { go(qStep + 1); }, 280);
+      }
+
+      function fireToast(qIdx) {
+        if (qIdx < 0 || qIdx >= TOAST_AMTS.length) return;
+        toastAmt.textContent = TOAST_AMTS[qIdx];
+        toast.classList.remove("show");
+        requestAnimationFrame(function () { toast.classList.add("show"); });
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 1950);
+        try { if (navigator.vibrate) navigator.vibrate(18); } catch (e) {}
+      }
+
+      function buildResult() { /* estimated earnings removed */ }
+
+      function renderHold() {
+        var m = Math.floor(holdSec / 60), s = holdSec % 60;
+        holdEl.textContent = String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+      }
+      function startCountdown() {
+        holdSec = 5 * 60 - 1; renderHold();
+        if (countdownIv) clearInterval(countdownIv);
+        countdownIv = setInterval(function () { holdSec = holdSec <= 0 ? 0 : holdSec - 1; renderHold(); }, 1000);
+      }
+
+      setInterval(function () {
+        var n = liveCount + Math.floor(Math.random() * 5) - 1;
+        if (n < 4080) n = 4080; if (n > 4220) n = 4220;
+        liveCount = n; liveEl.textContent = liveCount.toLocaleString('de-DE');
+      }, 3200);
+
+      function onCta() {
+        track("AddToCart"); track("CompleteRegistration"); track("Purchase");
+        var url;
+        try { url = new URL(OFFER_URL); } catch (e) { window.open(OFFER_URL, "_blank", "noopener,noreferrer"); return; }
+        var src = new URLSearchParams(window.location.search).get("source");
+        if (src) url.searchParams.set("source", src);
+        window.open(url.toString(), "_blank", "noopener,noreferrer");
+      }
+
+      var agYes = $(".ag-yes");
+      if (agYes) agYes.addEventListener("click", function () { go(1); });
+      var agNo = $(".ag-no");
+      if (agNo) agNo.addEventListener("click", function () {
+        if (wrap.id === "app-reco") { showPlayful(); } else { go(1); }
+      });
+      $(".resultCta").addEventListener("click", onCta);
+      wrap.querySelectorAll("[data-skip]").forEach(function (b) {
+        b.addEventListener("click", function () { go(4); });
+      });
+
+      updateProgress();
+
+      if (startStep && startStep > 0) {
+        var s0 = wrap.querySelector('.screen[data-step="0"]');
+        if (s0) s0.classList.remove("active");
+        step = startStep;
+        var sc = screenEl(startStep);
+        if (sc) sc.classList.add("active");
+        updateProgress();
+      }
+    }
+
+    // ---- Routing ----
+    function showPlayful() {
+      document.getElementById("app-reco").style.display = "none";
+      var pf = document.getElementById("app-pf");
+      pf.style.display = "";
+      initQuiz(pf, 1);
+      window.scrollTo(0, 0);
+    }
+    var recoApp = document.getElementById("app-reco");
+    recoApp.style.display = "";
+    initQuiz(recoApp, 0);
+  })();
+  </script>
+</body>
+</html>
