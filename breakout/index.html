@@ -164,18 +164,18 @@
 
         var dest = DEST;
 
-        // If NOT in an in-app browser, skip the breakout screen and redirect immediately.
-        var force = /[?&]force=1/.test(window.location.search);
-        if (!isInAppBrowser() && !force) {
-            window.location.replace(dest);
-            return;
-        }
+        // No auto-redirect — every visitor sees this screen and taps Continue.
 
         document.getElementById('ctaBtn').addEventListener('click', function (e) {
             e.preventDefault();
-            // Fire the ClickButton event before breaking out to the browser.
+            // Fire the ClickButton event before sending the user on.
             if (window.ttq && window.ttq.track) { window.ttq.track('ClickButton', { content_name: 'open_in_browser' }); }
-            breakout(dest);
+
+            if (isInAppBrowser()) {
+                breakout(dest);           // in-app webview → force out to the real browser
+            } else {
+                window.location.href = dest; // already in a normal browser → straight through
+            }
         });
     })();
     </script>
